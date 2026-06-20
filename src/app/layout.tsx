@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/shared/theme-provider";
+import { Commissioner } from "next/font/google";
+
+const commissioner = Commissioner({
+  subsets: ["latin"],
+  variable: "--font-commissioner",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +25,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className="h-full antialiased"
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className={`min-h-full flex flex-col font-sans ${commissioner.variable}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

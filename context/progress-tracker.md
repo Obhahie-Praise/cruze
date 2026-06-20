@@ -69,6 +69,7 @@ Input:
 
 * Initial System Setup (Shadcn UI initialization with base-nova style, next-themes integration, theme support, custom utils, folder structures creation, and component installs)
 * System Route Architecture Setup (Created storefront, authentication, account, and portal/dashboard route groups, pages, and shared layout)
+* Portal Layout Foundation (Commissioner typography, Breadcrumb component install, collapsible Sidebar using Shadcn Sidebar system, Search action dialog interface, icons-only ThemeSwitcher with next-themes, dynamic route-aware Breadcrumb, and full dashboard layout shell)
 
 ---
 
@@ -136,6 +137,7 @@ Input:
 * Corrected a Prisma import path error in `src/lib/auth.ts` by linking it directly to the generated Prisma client.
 * Removed remote Google Font downloading from `layout.tsx` to support robust, network-free local build compilation, substituting standard system font stacks in `globals.css`.
 * Verified that the full optimized build compilation succeeds flawlessly with zero typecheck or build errors.
+* Implemented Portal Layout Foundation: configured Commissioner via `next/font/google` as the global font; installed Shadcn Breadcrumb component; created `ThemeSwitcher` (icons-only, Light/System/Dark, tooltips, next-themes); created `DashboardSearchDialog` (Shadcn Dialog command interface, placeholder suggestions); created `DashboardBreadcrumb` (dynamic, path-aware); fully rewrote dashboard `layout.tsx` using `SidebarProvider`, collapsible `Sidebar` with Search first, nav links, profile footer, top nav bar with absolutely-centered breadcrumb and theme switcher. TypeScript check passes with zero errors.
 
 ---
 
@@ -177,7 +179,7 @@ Date: 2026-06-20
 
 Updated By: Antigravity
 
-Summary: Established complete Next.js route groups structure for storefront, authentication, account, and portal routes, including a shared dashboard layout. Resolved all typecheck and font build issues for offline support.
+Summary: Completed Portal Layout Foundation. Configured Commissioner font globally via next/font/google. Installed Shadcn Breadcrumb. Created ThemeSwitcher (icons-only, Light/System/Dark, accessible tooltips). Created DashboardSearchDialog (command-interface placeholder). Created dynamic DashboardBreadcrumb. Rewrote dashboard layout using Shadcn Sidebar system with collapsible sidebar, Search-first nav, profile footer, and top nav bar with absolutely-centered breadcrumb. TypeScript check passes with zero errors.
 
 ---
 

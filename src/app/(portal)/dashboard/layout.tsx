@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -9,100 +9,183 @@ import {
   ShoppingBag01Icon,
   UserGroupIcon,
   Analytics01Icon,
+  Search01Icon,
+  UserCircleIcon,
 } from "hugeicons-react";
-import { cn } from "@/lib/utils";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { ThemeSwitcher } from "@/components/shared/theme-switcher";
+import { DashboardSearchDialog } from "@/components/portal/dashboard-search-dialog";
+import { DashboardBreadcrumb } from "@/components/portal/dashboard-breadcrumb";
 
-interface NavigationItem {
+interface NavItem {
   name: string;
   href: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
 }
 
-const navigation: NavigationItem[] = [
+const navItems: NavItem[] = [
   { name: "Overview", href: "/dashboard/overview", icon: Home01Icon },
-  { name: "Products", href: "/dashboard/products", icon: PackageIcon },
   { name: "Orders", href: "/dashboard/orders", icon: ShoppingBag01Icon },
+  { name: "Products", href: "/dashboard/products", icon: PackageIcon },
   { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
   { name: "Analytics", href: "/dashboard/analytics", icon: Analytics01Icon },
 ];
+
+function DashboardSidebar() {
+  const pathname = usePathname();
+  const [searchOpen, setSearchOpen] = React.useState(false);
+
+  return (
+    <>
+      <Sidebar collapsible="icon">
+        {/* ── Header / Brand ─────────────────────────────────── */}
+        <SidebarHeader className="h-14 justify-center px-3">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2.5 overflow-hidden font-semibold"
+          >
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-foreground text-xs font-bold text-background">
+              C
+            </span>
+            <span className="truncate text-sm">Cruze</span>
+          </Link>
+        </SidebarHeader>
+
+        <Separator className="mb-0" />
+
+        {/* ── Navigation ─────────────────────────────────────── */}
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {/* Search — must be first */}
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => setSearchOpen(true)}
+                    tooltip="Search"
+                    aria-label="Open search"
+                    id="sidebar-search-trigger"
+                  >
+                    <Search01Icon size={16} className="shrink-0" />
+                    <span>Search</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                {/* Nav links */}
+                {navItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  const Icon = item.icon;
+                  return (
+                    <SidebarMenuItem key={item.name}>
+                      <SidebarMenuButton
+                        render={<Link href={item.href} />}
+                        isActive={isActive}
+                        tooltip={item.name}
+                        aria-label={item.name}
+                        id={`sidebar-nav-${item.name.toLowerCase()}`}
+                      >
+                        <Icon size={16} className="shrink-0" />
+                        <span>{item.name}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+
+        {/* ── Footer / Profile placeholder ───────────────────── */}
+        <Separator />
+        <SidebarFooter className="py-2 px-3">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                size="lg"
+                tooltip="Account"
+                aria-label="Account (coming soon)"
+                id="sidebar-profile-button"
+                className="cursor-default"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
+                  <UserCircleIcon size={18} className="text-muted-foreground" />
+                </span>
+                <div className="flex min-w-0 flex-col text-left">
+                  <span className="truncate text-sm font-medium">Admin User</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    admin@cruze.com
+                  </span>
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+
+        <SidebarRail />
+      </Sidebar>
+
+      {/* Search dialog — rendered outside sidebar so it always overlays correctly */}
+      <DashboardSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+    </>
+  );
+}
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-
   return (
-    <div className="flex min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
-      {/* Sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-20 flex w-64 flex-col border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-        {/* Logo Section */}
-        <div className="flex h-16 items-center px-6 border-b border-zinc-200 dark:border-zinc-800">
-          <Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg tracking-tight">
-            <span className="h-6 w-6 rounded bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-black text-xs font-bold">C</span>
-            Cruze Portal
-          </Link>
-        </div>
+    <SidebarProvider>
+      <DashboardSidebar />
 
-        {/* Navigation links */}
-        <nav className="flex-1 space-y-1 px-4 py-6">
-          {navigation.map((item) => {
-            const isActive = pathname === item.href;
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
-                  isActive
-                    ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50"
-                    : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-50"
-                )}
-              >
-                <Icon className={cn(
-                  "h-5 w-5 transition-transform duration-200 group-hover:scale-105",
-                  isActive ? "text-zinc-900 dark:text-zinc-50" : "text-zinc-400 dark:text-zinc-500"
-                )} />
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav>
+      <SidebarInset>
+        {/* ── Top Navigation Bar ──────────────────────────────── */}
+        <header className="relative flex h-14 shrink-0 items-center border-b border-border bg-background px-4">
+          {/* Left: Sidebar trigger */}
+          <div className="flex items-center">
+            <SidebarTrigger
+              id="dashboard-sidebar-trigger"
+              aria-label="Toggle sidebar"
+            />
+          </div>
 
-        {/* Footer/User Info placeholder */}
-        <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-semibold text-sm">
-              AD
-            </div>
-            <div className="flex-1 overflow-hidden">
-              <p className="truncate text-sm font-medium">Admin User</p>
-              <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">admin@cruze.com</p>
+          {/* Center: Breadcrumb — absolutely centered so it's unaffected by side content */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="pointer-events-auto">
+              <DashboardBreadcrumb />
             </div>
           </div>
-        </div>
-      </aside>
 
-      {/* Main Content Area */}
-      <div className="flex flex-col flex-1 pl-64">
-        {/* Top Header */}
-        <header className="flex h-16 items-center justify-between border-b border-zinc-200 bg-white px-8 dark:border-zinc-800 dark:bg-zinc-900">
-          <h1 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-            {navigation.find((item) => item.href === pathname)?.name || "Dashboard"}
-          </h1>
-          <div className="flex items-center gap-4">
-            {/* Minimal top actions placeholder */}
-            <span className="text-xs text-zinc-400 dark:text-zinc-500">Secure Admin Session</span>
+          {/* Right: Theme switcher */}
+          <div className="ml-auto flex items-center">
+            <ThemeSwitcher />
           </div>
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 p-8">
+        {/* ── Main Content Area ───────────────────────────────── */}
+        <main
+          id="dashboard-main-content"
+          className="flex flex-1 flex-col overflow-y-auto p-6"
+        >
           {children}
         </main>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
