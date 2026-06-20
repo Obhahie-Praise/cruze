@@ -2,166 +2,191 @@
 
 ## Purpose
 
-This document serves as the active project memory.
+This document serves as the active memory of the project.
 
-It tracks current progress, completed work, active work, upcoming priorities, architectural decisions, and unresolved questions.
+Its purpose is to maintain an accurate record of the current state of development, completed work, active work, upcoming priorities, unresolved questions, architectural decisions, and recent implementation activity.
 
-All AI agents and contributors should review this document before beginning work and update it after completing work.
+All AI agents and contributors must review this file before beginning work and update it after every meaningful implementation change.
 
-This document represents the current state of the project.
+This file should always reflect the current reality of the project.
+
+---
+
+# Usage Rules
+
+Before starting work:
+
+* Review the current project state.
+* Review active work.
+* Review upcoming priorities.
+* Review unresolved questions.
+* Review architectural decisions.
+
+After completing meaningful work:
+
+* Update the relevant sections.
+* Record completed work.
+* Update active work.
+* Adjust priorities if necessary.
+* Record new decisions.
+* Record session outcomes.
+
+The progress tracker must remain accurate at all times.
 
 ---
 
 # Current Phase
 
-Phase:
+Purpose:
 
-Status:
+Tracks the current stage of project development.
 
-Objective:
+Input:
+
+* Storefront Shell & Home Page Development
 
 ---
 
 # Current Goal
 
-Define the immediate objective being worked on.
+Purpose:
 
-Example:
+Defines the primary objective currently being worked on.
 
-* Build Product Management System
-* Implement Authentication
-* Complete Checkout Flow
+Input:
 
-Only one primary goal should exist at a time.
+* Create the storefront layout shell, including navigation header and footer, and implement the landing/home page UI.
 
 ---
 
 # Completed
 
-Features, systems, and tasks that have been completed.
+Purpose:
 
-Example:
+Tracks work that has been fully completed.
 
-* Project setup
-* Database configuration
-* Authentication
-* Product schema
-* Product CRUD
+Input:
+
+* Initial System Setup (Shadcn UI initialization with base-nova style, next-themes integration, theme support, custom utils, folder structures creation, and component installs)
 
 ---
 
 # In Progress
 
-Work currently being implemented.
+Purpose:
 
-Example:
+Tracks work currently being implemented.
 
-* Product image uploads
-* Category management
+Input:
+
+* None
 
 ---
 
 # Next Up
 
-Highest-priority tasks after the current goal.
+Purpose:
 
-Example:
+Tracks the highest-priority work that should be completed next.
 
-1. Category Management
-2. Collection Management
-3. Product Search
+Input:
 
-Order should reflect implementation priority.
+* Core E-Commerce Storefront Layout (Header, Footer, Navigation)
 
 ---
 
 # Open Questions
 
-Questions that require clarification or future decisions.
+Purpose:
 
-Examples:
+Tracks unresolved questions, uncertainties, and decisions that require clarification.
 
-* Should guest checkout be supported?
-* Should product reviews be included?
-* Should customers be able to save wishlists?
+Input:
 
-Questions should remain here until resolved.
+* None
 
 ---
 
 # Architecture Decisions
 
-Important implementation decisions made during development.
+Purpose:
 
-Examples:
+Tracks important technical and architectural decisions made during development.
 
-* UploadThing selected for file uploads.
-* Clerk selected for authentication.
-* Paystack selected for payments.
+Input:
 
-This section should contain concise decision summaries only.
+* Using Shadcn UI neutral theme.
+* Next-themes for Light/Dark/System theme persistence.
+* Hugeicons as the primary icon system.
+* Standardized `cn` class merger utility in `src/lib/utils.ts`.
 
 ---
 
 # Session Notes
 
-Brief notes from the latest development session.
+Purpose:
 
-Examples:
+Tracks the outcome of the most recent implementation session.
 
-* Product CRUD completed.
-* Validation added to all product forms.
-* Product image architecture finalized.
+Input:
 
-Focus on outcomes rather than implementation details.
+* Initialized Shadcn UI base-nova style.
+* Installed 18 required UI components including field.tsx.
+* Integrated `next-themes` ThemeProvider and configured suppressHydrationWarning.
+* Added `react-hook-form` and `@hookform/resolvers` for validation logic.
+* Verified compilation and NextJS Turbopack build cleanly succeeds.
 
 ---
 
 # Blockers
 
-Current blockers preventing progress.
+Purpose:
 
-Examples:
+Tracks issues preventing progress.
 
-* Missing Paystack credentials.
-* Waiting for client approval.
-* Database migration issue.
+Input:
 
-If no blockers exist, explicitly state:
-
-None.
+* None
 
 ---
 
 # Project Health
 
-Overall Status:
+Purpose:
 
-* On Track
-* At Risk
-* Blocked
+Provides a high-level summary of the project's current status.
 
-Reason:
+Input:
 
-Provide a brief explanation.
+Status: Healthy
+
+Reason: Project setup, folder structures, theme system, utilities, and components have been successfully initialized. Next.js Turbopack build succeeds without errors.
 
 ---
 
-# AI Instructions
+# Last Updated
 
-Before starting work:
+Purpose:
 
-1. Review Current Goal.
-2. Review In Progress.
-3. Review Open Questions.
-4. Review Architecture Decisions.
+Records the most recent update to this file.
 
-After completing work:
+Input:
 
-1. Move completed tasks into Completed.
-2. Update In Progress.
-3. Update Next Up.
-4. Add Session Notes.
-5. Update Project Health.
+Date: 2026-06-20
 
-This document should always reflect the current reality of the project.
+Updated By: Antigravity
+
+Summary: Completed project initialization and initial system setup. Marked as completed.
+
+---
+
+# Agent Responsibility
+
+Every AI agent must:
+
+1. Review this file before beginning work.
+2. Keep this file synchronized with the actual state of the project.
+3. Update this file after every meaningful implementation change.
+4. Ensure completed work, active work, and future work are accurately represented.
+
+This file acts as the project's operational memory and should always remain current.
