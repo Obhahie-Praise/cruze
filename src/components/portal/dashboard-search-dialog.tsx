@@ -25,6 +25,8 @@ const suggestions: SearchSuggestion[] = [
   { label: "Products", description: "Manage your products", href: "/dashboard/products" },
   { label: "Orders", description: "View and manage orders", href: "/dashboard/orders" },
   { label: "Customers", description: "Browse customer accounts", href: "/dashboard/customers" },
+  { label: "Deals", description: "Manage promotional campaigns", href: "/dashboard/deals" },
+  { label: "Support", description: "View support tickets", href: "/dashboard/support" },
   { label: "Analytics", description: "View store analytics", href: "/dashboard/analytics" },
 ];
 
@@ -46,14 +48,15 @@ export function DashboardSearchDialog({ open, onOpenChange }: SearchDialogProps)
       const timer = setTimeout(() => inputRef.current?.focus(), 50);
       return () => clearTimeout(timer);
     } else {
-      setQuery("");
+      const timer = setTimeout(() => setQuery(""), 0);
+      return () => clearTimeout(timer);
     }
   }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-w-[560px] overflow-hidden p-0 gap-0"
+        className="max-w-md min-w-xl overflow-hidden p-0 gap-0"
         aria-describedby="dashboard-search-description"
       >
         <DialogHeader className="sr-only">

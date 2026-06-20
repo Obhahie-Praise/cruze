@@ -11,6 +11,8 @@ import {
   Analytics01Icon,
   Search01Icon,
   UserCircleIcon,
+  SaleTag02Icon,
+  CustomerSupportIcon,
 } from "hugeicons-react";
 import {
   Sidebar,
@@ -43,12 +45,26 @@ const navItems: NavItem[] = [
   { name: "Orders", href: "/dashboard/orders", icon: ShoppingBag01Icon },
   { name: "Products", href: "/dashboard/products", icon: PackageIcon },
   { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
+  { name: "Deals", href: "/dashboard/deals", icon: SaleTag02Icon },
+  { name: "Support", href: "/dashboard/support", icon: CustomerSupportIcon },
   { name: "Analytics", href: "/dashboard/analytics", icon: Analytics01Icon },
 ];
 
 function DashboardSidebar() {
   const pathname = usePathname();
   const [searchOpen, setSearchOpen] = React.useState(false);
+
+  // Wire Ctrl+L / Cmd+L to open the search dialog
+  React.useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.ctrlKey || e.metaKey) && e.key === "l") {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <>
@@ -59,7 +75,7 @@ function DashboardSidebar() {
             href="/dashboard"
             className="flex items-center gap-2.5 overflow-hidden font-semibold"
           >
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-foreground text-xs font-bold text-background">
+            <span className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-md bg-foreground text-xs font-bold text-background">
               C
             </span>
             <span className="truncate text-sm">Cruze</span>
@@ -72,17 +88,26 @@ function DashboardSidebar() {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="space-y-1.5">
                 {/* Search — must be first */}
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     onClick={() => setSearchOpen(true)}
-                    tooltip="Search"
-                    aria-label="Open search"
+                    tooltip="Search (Ctrl+L)"
+                    aria-label="Open search dialog"
                     id="sidebar-search-trigger"
                   >
                     <Search01Icon size={16} className="shrink-0" />
-                    <span>Search</span>
+                    <span className="flex flex-1 items-center justify-between">
+                      Search
+                      <kbd
+                        className="ml-auto hidden items-center gap-0.5 rounded border border-border bg-muted px-1 py-0.5 text-[10px] font-medium text-muted-foreground group-data-[collapsible=icon]:hidden sm:flex"
+                        aria-label="Keyboard shortcut: Ctrl L"
+                      >
+                        <span>⌃</span>
+                        <span>L</span>
+                      </kbd>
+                    </span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
@@ -111,8 +136,7 @@ function DashboardSidebar() {
         </SidebarContent>
 
         {/* ── Footer / Profile placeholder ───────────────────── */}
-        <Separator />
-        <SidebarFooter className="py-2 px-3">
+        <SidebarFooter className="p-1">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton

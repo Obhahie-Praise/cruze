@@ -126,6 +126,10 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  role: 'role',
+  lifetimeValue: 'lifetimeValue',
+  ordersCount: 'ordersCount',
+  lastActiveAt: 'lastActiveAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -161,9 +165,256 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  streetAddress: 'streetAddress',
+  apartment: 'apartment',
+  city: 'city',
+  state: 'state',
+  postalCode: 'postalCode',
+  country: 'country',
+  phone: 'phone',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  slug: 'slug',
+  sku: 'sku',
+  costPrice: 'costPrice',
+  sellingPrice: 'sellingPrice',
+  compareAtPrice: 'compareAtPrice',
+  stock: 'stock',
+  trackInventory: 'trackInventory',
+  published: 'published',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  seoKeywords: 'seoKeywords',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductImageScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  url: 'url',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CollectionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  bannerUrl: 'bannerUrl',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductCollectionScalarFieldEnum = {
+  productId: 'productId',
+  collectionId: 'collectionId'
+};
+
+exports.Prisma.CartScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  isAbandoned: 'isAbandoned',
+  abandonedEmailSent: 'abandonedEmailSent',
+  lastActivityAt: 'lastActivityAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
+  cartId: 'cartId',
+  productId: 'productId',
+  quantity: 'quantity',
+  addedPrice: 'addedPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  orderNumber: 'orderNumber',
+  userId: 'userId',
+  status: 'status',
+  totalAmount: 'totalAmount',
+  subtotalAmount: 'subtotalAmount',
+  taxAmount: 'taxAmount',
+  shippingAmount: 'shippingAmount',
+  discountAmount: 'discountAmount',
+  couponCode: 'couponCode',
+  shippingAddress: 'shippingAddress',
+  billingAddress: 'billingAddress',
+  email: 'email',
+  phone: 'phone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderItemScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  productId: 'productId',
+  quantity: 'quantity',
+  price: 'price',
+  name: 'name',
+  sku: 'sku',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentTransactionScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  reference: 'reference',
+  amount: 'amount',
+  currency: 'currency',
+  gatewayResponse: 'gatewayResponse',
+  status: 'status',
+  metadata: 'metadata',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DealScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  bannerUrl: 'bannerUrl',
+  linkUrl: 'linkUrl',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  viewsCount: 'viewsCount',
+  clicksCount: 'clicksCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CouponScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  description: 'description',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  minPurchaseAmount: 'minPurchaseAmount',
+  maxDiscountAmount: 'maxDiscountAmount',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  usageLimit: 'usageLimit',
+  usageCount: 'usageCount',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SupportTicketScalarFieldEnum = {
+  id: 'id',
+  ticketNumber: 'ticketNumber',
+  userId: 'userId',
+  subject: 'subject',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SupportMessageScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  senderId: 'senderId',
+  content: 'content',
+  attachments: 'attachments',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProductViewScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  userId: 'userId',
+  sessionId: 'sessionId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SearchEventScalarFieldEnum = {
+  id: 'id',
+  query: 'query',
+  userId: 'userId',
+  sessionId: 'sessionId',
+  resultsCount: 'resultsCount',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CartEventScalarFieldEnum = {
+  id: 'id',
+  cartId: 'cartId',
+  userId: 'userId',
+  action: 'action',
+  productId: 'productId',
+  quantity: 'quantity',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CheckoutEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sessionId: 'sessionId',
+  step: 'step',
+  orderId: 'orderId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SiteEventScalarFieldEnum = {
+  id: 'id',
+  eventType: 'eventType',
+  userId: 'userId',
+  sessionId: 'sessionId',
+  payload: 'payload',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -176,12 +427,90 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.UserRole = exports.$Enums.UserRole = {
+  ADMIN: 'ADMIN',
+  CUSTOMER: 'CUSTOMER'
+};
+
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
+};
+
+exports.TransactionStatus = exports.$Enums.TransactionStatus = {
+  PENDING: 'PENDING',
+  SUCCESSFUL: 'SUCCESSFUL',
+  FAILED: 'FAILED'
+};
+
+exports.CouponDiscountType = exports.$Enums.CouponDiscountType = {
+  PERCENTAGE: 'PERCENTAGE',
+  FIXED_AMOUNT: 'FIXED_AMOUNT'
+};
+
+exports.TicketStatus = exports.$Enums.TicketStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED'
+};
+
+exports.TicketPriority = exports.$Enums.TicketPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+};
+
+exports.CartActionType = exports.$Enums.CartActionType = {
+  ADD: 'ADD',
+  REMOVE: 'REMOVE',
+  UPDATE: 'UPDATE'
+};
+
+exports.CheckoutStepType = exports.$Enums.CheckoutStepType = {
+  STARTED: 'STARTED',
+  SHIPPING_ADDRESS_ADDED: 'SHIPPING_ADDRESS_ADDED',
+  BILLING_ADDRESS_ADDED: 'BILLING_ADDRESS_ADDED',
+  PAYMENT_STARTED: 'PAYMENT_STARTED',
+  COMPLETED: 'COMPLETED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Address: 'Address',
+  Product: 'Product',
+  ProductImage: 'ProductImage',
+  Category: 'Category',
+  Collection: 'Collection',
+  ProductCollection: 'ProductCollection',
+  Cart: 'Cart',
+  CartItem: 'CartItem',
+  Order: 'Order',
+  OrderItem: 'OrderItem',
+  PaymentTransaction: 'PaymentTransaction',
+  Deal: 'Deal',
+  Coupon: 'Coupon',
+  SupportTicket: 'SupportTicket',
+  SupportMessage: 'SupportMessage',
+  ProductView: 'ProductView',
+  SearchEvent: 'SearchEvent',
+  CartEvent: 'CartEvent',
+  CheckoutEvent: 'CheckoutEvent',
+  SiteEvent: 'SiteEvent'
 };
 
 /**
