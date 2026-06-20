@@ -41,8 +41,7 @@ Architectural consistency is prioritized over individual preferences.
 ## UI System
 
 * Shadcn UI
-* Koko UI
-* Hugeicons
+* lucide react
 
 ---
 
