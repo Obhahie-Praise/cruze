@@ -40,9 +40,9 @@ export async function middleware(request: NextRequest) {
     console.error("Middleware auth fetch error:", error);
   }
 
-  // Not authenticated — redirect to sign-in
+  // Not authenticated — redirect to signin
   if (!sessionData?.session || !sessionData?.user) {
-    const signInUrl = new URL("/sign-in", request.url);
+    const signInUrl = new URL("/signin", request.url);
     signInUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(signInUrl);
   }
