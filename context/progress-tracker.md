@@ -145,7 +145,9 @@ Input:
 * Ignored `prisma/generated/**` in ESLint configurations, and fixed react-hooks setState-in-effect synchronous rendering warnings in `dashboard-search-dialog` and `use-mobile` hook.
 * Configured Next.js Middleware to execute in the Node.js runtime (`runtime: "nodejs"`) to support Prisma database operations without `@prisma/client-runtime-utils` Edge runtime resolution issues.
 * Cleaned up the codebase by removing temporary files including `migration.sql`.
-* Verified typecheck (`npx tsc --noEmit`) and linter (`pnpm lint`) compile and run successfully with zero errors.
+* Resolved Next.js Middleware Edge Runtime compatibility issue by replacing direct `auth` config import with a lightweight API fetch validation to `/api/auth/get-session`, and removed `runtime: "nodejs"` config override to execute standard Edge middleware.
+* Explicitly installed `@prisma/client-runtime-utils` as a direct dependency in `package.json` to resolve pnpm dependency hoisting and Next.js Webpack bundler resolution problems.
+* Verified that `pnpm build` completes successfully with zero compilation or static page generation errors.
 
 ---
 
@@ -183,11 +185,12 @@ Records the most recent update to this file.
 
 Input:
 
-Date: 2026-06-20
+Date: 2026-06-21
 
 Updated By: Antigravity
 
-Summary: Completed Database & Infrastructure Foundation. Configured and generated Prisma client. Set up Better Auth with database hooks and extended type-safe role field. Integrated UploadThing with 7 routes and authorization middleware. Secured dashboard routes with Next.js middleware, configuring Node.js runtime execution. Cleaned up unnecessary repository files (migration.sql) and resolved all typescript and eslint checks.
+Summary: Resolved Next.js Middleware compilation error by refactoring `src/middleware.ts` to perform session validation via fetch requests instead of direct database Prisma adapter imports, removing Edge runtime incompatibilities. Installed `@prisma/client-runtime-utils` to fix hoisting resolution and verified a clean production build (`pnpm build`).
+
 
 
 ---

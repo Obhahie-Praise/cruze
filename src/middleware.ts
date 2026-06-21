@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 
 // Routes that require authentication
 const AUTH_REQUIRED_PATHS = ["/profile", "/checkout", "/support"];
@@ -21,13 +19,29 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Fetch session from Better Auth
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  // Fetch session from Better Auth via API endpoint to avoid importing Prisma adapter in Middleware
+  let sessionData: {
+    session: any;
+    user: {
+      role?: string;
+    };
+  } | null = null;
+
+  try {
+    const response = await fetch(`${request.nextUrl.origin}/api/auth/get-session`, {
+      headers: {
+        cookie: request.headers.get("cookie") || "",
+      },
+    });
+    if (response.ok) {
+      sessionData = await response.json();
+    }
+  } catch (error) {
+    console.error("Middleware auth fetch error:", error);
+  }
 
   // Not authenticated — redirect to sign-in
-  if (!session) {
+  if (!sessionData?.session || !sessionData?.user) {
     const signInUrl = new URL("/sign-in", request.url);
     signInUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(signInUrl);
@@ -35,7 +49,7 @@ export async function middleware(request: NextRequest) {
 
   // Admin-only route protection
   const isAdminPath = ADMIN_ONLY_PATHS.some((p) => pathname.startsWith(p));
-  if (isAdminPath && session.user.role !== "ADMIN") {
+  if (isAdminPath && sessionData.user.role !== "ADMIN") {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -43,7 +57,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  runtime: "nodejs",
   matcher: [
     /*
      * Match all paths except:
@@ -56,3 +69,4 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|public|api).*)",
   ],
 };
+
