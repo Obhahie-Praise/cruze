@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Home01Icon,
   PackageIcon,
@@ -10,9 +10,10 @@ import {
   UserGroupIcon,
   Analytics01Icon,
   Search01Icon,
-  UserCircleIcon,
   SaleTag02Icon,
   CustomerSupportIcon,
+  Settings01Icon,
+  LogoutSquare02Icon,
 } from "hugeicons-react";
 import {
   Sidebar,
@@ -33,6 +34,16 @@ import { Separator } from "@/components/ui/separator";
 import { ThemeSwitcher } from "@/components/shared/theme-switcher";
 import { DashboardSearchDialog } from "@/components/portal/dashboard-search-dialog";
 import { DashboardBreadcrumb } from "@/components/portal/dashboard-breadcrumb";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useSession, signOut } from "@/lib/auth-client";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface NavItem {
   name: string;
@@ -50,9 +61,43 @@ const navItems: NavItem[] = [
   { name: "Analytics", href: "/dashboard/analytics", icon: Analytics01Icon },
 ];
 
+function UserAvatar({
+  name,
+  image,
+}: {
+  name?: string | null;
+  image?: string | null;
+}) {
+  if (image) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={image}
+        alt={name ?? "User avatar"}
+        className="h-8 w-8 shrink-0 rounded-full object-cover"
+      />
+    );
+  }
+  const initials = name
+    ? name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
+  return (
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+      {initials}
+    </span>
+  );
+}
+
 function DashboardSidebar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [searchOpen, setSearchOpen] = React.useState(false);
+  const { data: session, isPending } = useSession();
 
   // Wire Ctrl+L / Cmd+L to open the search dialog
   React.useEffect(() => {
@@ -65,6 +110,16 @@ function DashboardSidebar() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  const handleLogout = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess() {
+          router.push("/signin");
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -135,27 +190,77 @@ function DashboardSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        {/* ── Footer / Profile placeholder ───────────────────── */}
+        {/* ── Footer / Profile ────────────────────────────────── */}
         <SidebarFooter className="p-1">
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton
-                size="lg"
-                tooltip="Account"
-                aria-label="Account (coming soon)"
-                id="sidebar-profile-button"
-                className="cursor-default"
-              >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
-                  <UserCircleIcon size={18} className="text-muted-foreground" />
-                </span>
-                <div className="flex min-w-0 flex-col text-left">
-                  <span className="truncate text-sm font-medium">Admin User</span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    admin@cruze.com
-                  </span>
-                </div>
-              </SidebarMenuButton>
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <SidebarMenuButton
+                      size="lg"
+                      tooltip="Account"
+                      aria-label="Account menu"
+                      id="sidebar-profile-button"
+                    />
+                  }
+                >
+                  {isPending ? (
+                    <>
+                      <Skeleton className="h-8 w-8 rounded-full shrink-0" />
+                      <div className="flex min-w-0 flex-col gap-1">
+                        <Skeleton className="h-3 w-24 rounded" />
+                        <Skeleton className="h-2.5 w-32 rounded" />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <UserAvatar
+                        name={session?.user?.name}
+                        image={session?.user?.image}
+                      />
+                      <div className="flex min-w-0 flex-col text-left">
+                        <span className="truncate text-sm font-medium">
+                          {session?.user?.name ?? "Admin User"}
+                        </span>
+                        <span className="truncate text-xs text-muted-foreground">
+                          {session?.user?.email ?? ""}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent side="top" align="start" sideOffset={8}>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {session?.user?.name ?? "Admin User"}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {session?.user?.email ?? ""}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    id="sidebar-account-settings"
+                    onClick={() => router.push("/profile")}
+                  >
+                    <Settings01Icon size={16} className="shrink-0" />
+                    Account Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    id="sidebar-logout"
+                    variant="destructive"
+                    onClick={handleLogout}
+                  >
+                    <LogoutSquare02Icon size={16} className="shrink-0" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>

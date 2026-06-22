@@ -1,8 +1,10 @@
+import { AuthLayout } from "@/components/auth/auth-layout";
+import { SignUpForm } from "@/components/auth/sign-up-form";
+
 export default function SignUpPage() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-      <h1 className="text-3xl font-bold tracking-tight">Sign Up</h1>
-      <p className="text-zinc-500 mt-2 font-mono text-sm">/signup</p>
-    </main>
+    <AuthLayout>
+      <SignUpForm />
+    </AuthLayout>
   );
 }

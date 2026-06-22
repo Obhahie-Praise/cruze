@@ -43,7 +43,7 @@ Tracks the current stage of project development.
 
 Input:
 
-* Storefront Shell & Home Page Development
+* Authentication & Account Infrastructure
 
 ---
 
@@ -55,7 +55,7 @@ Defines the primary objective currently being worked on.
 
 Input:
 
-* Create the storefront layout shell, including navigation header and footer, and implement the landing/home page UI.
+* Core E-Commerce Storefront Layout (Header, Footer, Navigation) — authentication infrastructure is complete.
 
 ---
 
@@ -72,6 +72,7 @@ Input:
 * Portal Layout Foundation (Commissioner typography, Breadcrumb component install, collapsible Sidebar using Shadcn Sidebar system, Search action dialog interface, icons-only ThemeSwitcher with next-themes, dynamic route-aware Breadcrumb, and full dashboard layout shell)
 * Database & Infrastructure Foundation (Database schema migration & Prisma client generation, Better Auth setup with custom user `role` property and client `inferAdditionalFields` sync, UploadThing configuration with 7 secure upload routes, Admin route protection via Next.js Middleware, Dashboard Deals & Support routes, Sidebar/Search shortcuts Ctrl+L wiring, quality checks typecheck/ESLint clean pass)
 * Dashboard Overview Page (`/dashboard/overview`) completed with real database metrics, cached analytics queries, Recharts dual-line chart, filter modes, Top Products table, and Recent Products table.
+* Authentication UI & User Flow (Sign In page, Sign Up page, AuthLayout split-screen design, Google OAuth integration via Better Auth, email/password auth, role-based redirect logic, ADMIN/CUSTOMER role assignment, dashboard sidebar real user data + profile dropdown with logout, storefront homepage session-aware display, route protection middleware — production build passes with zero errors)
 
 ---
 
@@ -83,7 +84,7 @@ Tracks work currently being implemented.
 
 Input:
 
-* Authentication UI & User Flow Implementation (Sign In/Up, Google Auth, Redirects, Better Auth Integration, Role Assignment)
+* None
 
 ---
 
@@ -96,6 +97,7 @@ Tracks the highest-priority work that should be completed next.
 Input:
 
 * Core E-Commerce Storefront Layout (Header, Footer, Navigation)
+* Product listing and detail pages
 
 ---
 
@@ -140,15 +142,12 @@ Input:
 * Integrated Better Auth: configured `prismaAdapter` in server `auth.ts`, mapped database hooks to default to "CUSTOMER" role on sign-up, and defined the `role` field on `user.additionalFields`.
 * Extended client-side auth in `src/lib/auth-client.ts` with `inferAdditionalFields` to dynamically sync user properties on the client side.
 * Protected routes with Next.js Middleware: `/dashboard/*` restricted to ADMIN users; `/profile`, `/checkout`, and `/support` restricted to authenticated sessions.
-* Created UploadThing core configuration with 7 custom endpoints (`productImageUploader`, `dealPosterUploader`, `categoryImageUploader`, `collectionBannerUploader`, `homepageBannerUploader`, `avatarUploader`, `supportAttachmentUploader`) protected by session validation and role authorization.
-* Created `/dashboard/deals` and `/dashboard/support` placeholder pages and integrated them into the dashboard layout sidebar navigation.
-* Enhanced sidebar search by binding the global shortcut `Ctrl+L` / `Cmd+L` to trigger the dialog, and added dynamic list options in the `DashboardSearchDialog`.
-* Ignored `prisma/generated/**` in ESLint configurations, and fixed react-hooks setState-in-effect synchronous rendering warnings in `dashboard-search-dialog` and `use-mobile` hook.
-* Configured Next.js Middleware to execute in the Node.js runtime (`runtime: "nodejs"`) to support Prisma database operations without `@prisma/client-runtime-utils` Edge runtime resolution issues.
-* Cleaned up the codebase by removing temporary files including `migration.sql`.
-* Resolved Next.js Middleware Edge Runtime compatibility issue by replacing direct `auth` config import with a lightweight API fetch validation to `/api/auth/get-session`, and removed `runtime: "nodejs"` config override to execute standard Edge middleware.
-* Explicitly installed `@prisma/client-runtime-utils` as a direct dependency in `package.json` to resolve pnpm dependency hoisting and Next.js Webpack bundler resolution problems.
-* Verified that `pnpm build` completes successfully with zero compilation or static page generation errors.
+* Created UploadThing core configuration with 7 custom endpoints protected by session validation and role authorization.
+* Created `/dashboard/deals` and `/dashboard/support` placeholder pages.
+* Enhanced sidebar search with `Ctrl+L` / `Cmd+L` shortcut wiring.
+* Resolved Next.js Middleware Edge Runtime compatibility issue with lightweight API fetch to `/api/auth/get-session`.
+* Verified `pnpm build` completes successfully with zero errors.
+* **Authentication UI Session**: Installed `checkbox` and `alert` Shadcn components. Updated `auth.ts` to add Google OAuth provider (`GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`) and role assignment hook (jeffcruze@gmail.com → ADMIN, all others → CUSTOMER). Created `AuthLayout` split-screen component (left: form, right: branded panel with grid pattern + ThemeSwitcher). Created `SignInForm` and `SignUpForm` client components with email/password + Google OAuth, loading states, error handling via Alert, role-based redirect logic. Updated `/signin` and `/signup` pages. Updated storefront homepage (`/`) to server-side fetch session and conditionally display user name/email. Rewrote dashboard layout to use `useSession` for real user data in sidebar, initials-based avatar fallback, skeleton loading states, and a Shadcn DropdownMenu profile button with Account Settings and destructive Logout that calls `signOut()` and redirects to `/signin`. Production build passed with zero compilation errors (22/22 routes).
 
 ---
 
@@ -186,11 +185,11 @@ Records the most recent update to this file.
 
 Input:
 
-Date: 2026-06-21
+Date: 2026-06-22
 
 Updated By: Antigravity
 
-Summary: Completed Dashboard Overview page (`/dashboard/overview`) with real database metrics, cached analytics queries, Recharts dual-line chart, filter modes, Top Products table, and Recent Products table. Fixed UI component type errors and ran production build successfully.
+Summary: Completed Authentication UI & User Flow. Implemented Sign In and Sign Up pages with split-screen AuthLayout, Google OAuth + email/password via Better Auth, role-based redirect logic (ADMIN → /dashboard/overview, CUSTOMER → /), automatic role assignment (jeffcruze@gmail.com gets ADMIN), dashboard sidebar profile with real user data + dropdown (Account Settings, destructive Logout), storefront homepage session display, route protection via middleware. Production build passes with zero errors.
 
 
 

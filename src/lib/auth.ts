@@ -21,15 +21,23 @@ export const auth = betterAuth({
     enabled: true,
   },
 
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+
   // Synchronize Better Auth users with the internal User table
   databaseHooks: {
     user: {
       create: {
         before: async (user) => {
+          const role = user.email === "jeffcruze@gmail.com" ? "ADMIN" : "CUSTOMER";
           return {
             data: {
               ...user,
-              role: "CUSTOMER" as const,
+              role,
             },
           };
         },
