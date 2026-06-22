@@ -46,7 +46,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
             <span className="text-3xl font-bold tracking-tight">Cruze</span>
           </div>
           <p className="max-w-xs text-sm text-zinc-400">
-            Free and Open-Source Tailwind CSS Admin Dashboard Template
+           Best place in benin to get the lastest fashion outifts!
           </p>
         </div>
 

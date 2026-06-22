@@ -84,7 +84,11 @@ Tracks work currently being implemented.
 
 Input:
 
-* None
+* Session persistence and remember-me duration configuration
+* Authentication signup/signin flow reliability repairs (orphaned accounts/users recovery)
+* Forgot password recovery dialog and password reset page implementation
+* Application-wide route-level loading skeletons infrastructure
+
 
 ---
 

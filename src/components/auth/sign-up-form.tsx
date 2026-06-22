@@ -224,11 +224,11 @@ export function SignUpForm() {
 
         <Button
           type="submit"
-          className="mt-4 h-11 w-full bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+          className="mt-4 h-11 w-full bg-white text-zinc-950 hover:bg-zinc-100 border border-zinc-200 shadow-sm dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
           disabled={isLoading || isGoogleLoading}
         >
           {isLoading ? (
-            <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+            <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-zinc-900" />
           ) : (
             "Sign Up"
           )}

@@ -1,15 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Field, FieldLabel, FieldContent, FieldError, FieldSet } from "@/components/ui/field";
+import { Field, FieldLabel, FieldContent, FieldSet } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon, ViewIcon, ViewOffIcon } from "hugeicons-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const GoogleIcon = (props: React.ComponentProps<"svg">) => (
   <svg viewBox="0 0 24 24" {...props}>
@@ -22,6 +30,9 @@ const GoogleIcon = (props: React.ComponentProps<"svg">) => (
 
 export function SignInForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -29,6 +40,30 @@ export function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Recovery Dialog states
+  const [recoveryEmail, setRecoveryEmail] = useState("");
+  const [isRecoveryLoading, setIsRecoveryLoading] = useState(false);
+  const [recoveryError, setRecoveryError] = useState<string | null>(null);
+  const [recoverySuccess, setRecoverySuccess] = useState(false);
+
+  const isRecoveryOpen = searchParams.get("recovery") === "true";
+
+  const openRecovery = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("recovery", "true");
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const closeRecovery = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("recovery");
+    router.push(params.toString() ? `${pathname}?${params.toString()}` : pathname);
+    // Reset states
+    setRecoveryEmail("");
+    setRecoveryError(null);
+    setRecoverySuccess(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,11 +108,48 @@ export function SignInForm() {
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/", // Redirects back here, middleware/auth callback will handle final destination
+        callbackURL: "/",
       });
     } catch (err: any) {
       setError(err?.message || "An error occurred with Google authentication.");
       setIsGoogleLoading(false);
+    }
+  };
+
+  const handleRecoverySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!recoveryEmail) {
+      setRecoveryError("Please enter your email address.");
+      return;
+    }
+
+    setIsRecoveryLoading(true);
+    setRecoveryError(null);
+
+    try {
+      const res = await fetch("/api/auth/forget-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: recoveryEmail,
+          redirectTo: `${window.location.origin}/reset-password`,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const message =
+          (data as { message?: string }).message ??
+          "Failed to send recovery email. Please try again.";
+        setRecoveryError(message);
+      } else {
+        setRecoverySuccess(true);
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setRecoveryError(message);
+    } finally {
+      setIsRecoveryLoading(false);
     }
   };
 
@@ -183,21 +255,22 @@ export function SignInForm() {
               Keep me logged in
             </label>
           </div>
-          <Link
-            href="/forgot-password"
-            className="text-sm font-medium text-primary hover:underline"
+          <button
+            type="button"
+            onClick={openRecovery}
+            className="text-sm font-medium text-primary hover:underline cursor-pointer"
           >
             Forgot password?
-          </Link>
+          </button>
         </div>
 
         <Button
           type="submit"
-          className="mt-4 h-11 w-full bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+          className="mt-4 h-11 w-full bg-white text-zinc-950 hover:bg-zinc-100 border border-zinc-200 shadow-sm dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
           disabled={isLoading || isGoogleLoading}
         >
           {isLoading ? (
-            <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+            <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-zinc-900" />
           ) : (
             "Sign In"
           )}
@@ -210,6 +283,101 @@ export function SignInForm() {
           Sign Up
         </Link>
       </div>
+
+      {/* Forgot Password Recovery Dialog */}
+      <Dialog open={isRecoveryOpen} onOpenChange={(open) => {
+        if (!open) closeRecovery();
+      }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Reset Password</DialogTitle>
+            <DialogDescription>
+              {recoverySuccess
+                ? "Check your email inbox for a link to reset your password."
+                : "Enter your email address and we'll send you a recovery link."}
+            </DialogDescription>
+          </DialogHeader>
+
+          {recoveryError && (
+            <Alert variant="destructive" className="my-2">
+              <AlertCircleIcon className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{recoveryError}</AlertDescription>
+            </Alert>
+          )}
+
+          {recoverySuccess ? (
+            <div className="flex flex-col items-center justify-center py-6 text-center gap-4">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-50 text-green-600 dark:bg-green-950/30 dark:text-green-400">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+                  />
+                </svg>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-semibold text-lg">Recovery Email Sent</h3>
+                <p className="text-sm text-muted-foreground max-w-xs">
+                  We have sent a secure password reset link to <strong>{recoveryEmail}</strong>.
+                </p>
+                <div className="text-xs text-muted-foreground bg-muted p-2 rounded mt-2 max-w-xs mx-auto">
+                  If the email does not arrive in a few minutes, check your spam/junk folder.
+                </div>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleRecoverySubmit} className="space-y-4 py-2">
+              <Field>
+                <FieldLabel htmlFor="recoveryEmail">Email Address</FieldLabel>
+                <FieldContent>
+                  <Input
+                    id="recoveryEmail"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={recoveryEmail}
+                    onChange={(e) => setRecoveryEmail(e.target.value)}
+                    required
+                    disabled={isRecoveryLoading}
+                    className="h-11"
+                  />
+                </FieldContent>
+              </Field>
+
+              <DialogFooter className="pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={closeRecovery}
+                  disabled={isRecoveryLoading}
+                  className="h-11"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isRecoveryLoading}
+                  className="h-11 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                >
+                  {isRecoveryLoading ? (
+                    <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                  ) : (
+                    "Send Recovery Link"
+                  )}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
