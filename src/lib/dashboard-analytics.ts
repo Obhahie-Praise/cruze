@@ -117,13 +117,9 @@ export const getRevenueChartData = unstable_cache(
     const orders = await prisma.order.findMany({
       where: {
         createdAt: { gte: start, lte: end },
-        status: { in: ["PAID", "PROCESSING", "SHIPPED", "DELIVERED"] },
+        status: { in: ["READY", "DELIVERED"] },
       },
       include: {
-        transactions: {
-          where: { status: "SUCCESSFUL" },
-          select: { amount: true },
-        },
         user: {
           select: { createdAt: true },
         },
@@ -181,7 +177,7 @@ export const getRevenueChartData = unstable_cache(
 
       const bucket = buckets.get(bucketKey);
       if (bucket) {
-        const orderRevenue = order.transactions.reduce((sum, t) => sum + Number(t.amount), 0);
+        const orderRevenue = Number(order.totalAmount);
         bucket.totalRevenue += orderRevenue;
 
         // New customer = user created within 30 days of their first order

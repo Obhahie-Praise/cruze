@@ -16,10 +16,9 @@ enum UserRole {
 }
 
 enum OrderStatus {
+  NEW
   PENDING
-  PAID
-  PROCESSING
-  SHIPPED
+  READY
   DELIVERED
   CANCELLED
   REFUNDED
@@ -315,6 +314,10 @@ model Order {
   email           String
   phone           String
   
+  // Operational details
+  notes           String?
+  refundReason    String?
+  
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   items           OrderItem[]
@@ -333,8 +336,12 @@ model OrderItem {
   product      Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   quantity     Int
   price        Decimal  @db.Decimal(10, 2)
+  costPrice    Decimal? @db.Decimal(10, 2)
   name         String
   sku          String?
+  imageUrl     String?
+  attributes   Json?
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

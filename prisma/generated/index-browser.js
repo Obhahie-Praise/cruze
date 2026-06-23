@@ -280,6 +280,8 @@ exports.Prisma.OrderScalarFieldEnum = {
   billingAddress: 'billingAddress',
   email: 'email',
   phone: 'phone',
+  notes: 'notes',
+  refundReason: 'refundReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -290,8 +292,11 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   productId: 'productId',
   quantity: 'quantity',
   price: 'price',
+  costPrice: 'costPrice',
   name: 'name',
   sku: 'sku',
+  imageUrl: 'imageUrl',
+  attributes: 'attributes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -443,10 +448,9 @@ exports.UserRole = exports.$Enums.UserRole = {
 };
 
 exports.OrderStatus = exports.$Enums.OrderStatus = {
+  NEW: 'NEW',
   PENDING: 'PENDING',
-  PAID: 'PAID',
-  PROCESSING: 'PROCESSING',
-  SHIPPED: 'SHIPPED',
+  READY: 'READY',
   DELIVERED: 'DELIVERED',
   CANCELLED: 'CANCELLED',
   REFUNDED: 'REFUNDED'

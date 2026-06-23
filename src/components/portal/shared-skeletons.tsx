@@ -152,3 +152,37 @@ export function SupportTicketSkeleton({ count = 3 }: { count?: number }) {
     </div>
   );
 }
+
+// Orders Metrics Skeleton (alias for 4-card metric skeleton)
+export function OrderMetricsSkeleton() {
+  return <MetricCardsSkeleton count={4} />;
+}
+
+// Orders List Skeleton
+export function OrderListSkeleton({ count = 5 }: { count?: number }) {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: count }).map((_, i) => (
+        <Card key={i}>
+          <CardContent className="p-4 flex gap-4 items-center">
+            {/* Image */}
+            <Skeleton className="h-20 w-20 rounded-lg flex-shrink-0" />
+            {/* Info */}
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-[40%]" />
+              <Skeleton className="h-5 w-[65%]" />
+              <Skeleton className="h-3.5 w-[30%]" />
+            </div>
+            {/* Price + badge */}
+            <div className="flex flex-col items-end gap-2">
+              <Skeleton className="h-5 w-20 rounded-full" />
+              <Skeleton className="h-7 w-16" />
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+
