@@ -38,7 +38,7 @@ export function OverviewClientShell({
   const [recentData, setRecentData] = React.useState(initialRecentProducts);
   const [recentLoading, setRecentLoading] = React.useState(false);
 
-  // ─── Revenue Filter Change ──────────────────────────────────────────────────
+  // Revenue Filter Change
   async function handleFilterChange(filter: RevenueFilter) {
     setRevenueFilter(filter);
     setRevenueLoading(true);
@@ -55,7 +55,7 @@ export function OverviewClientShell({
     }
   }
 
-  // ─── Top Products Page Change ───────────────────────────────────────────────
+  // Top Products Page Change
   async function handleTopPageChange(page: number) {
     setTopPage(page);
     setTopLoading(true);
@@ -74,7 +74,7 @@ export function OverviewClientShell({
     }
   }
 
-  // ─── Recent Products Page Change ────────────────────────────────────────────
+  // Recent Products Page Change
   async function handleRecentPageChange(page: number) {
     setRecentPage(page);
     setRecentLoading(true);

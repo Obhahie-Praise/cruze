@@ -188,11 +188,11 @@ Date: 2026-06-23
 
 Updated By: Antigravity
 
-Summary: Completed root cause investigation for hydration errors and user creation failures. The issues stemmed from Prisma schema misalignment with Better Auth and incorrect prop usage in DropdownMenuTrigger. Applied the fixes to codebase.
-
----
-
-# Agent Responsibility
+* **Hydration Mismatches & UI Crashes Resolved**:
+  * **Nested Buttons:** Fixed Radix UI `DropdownMenuTrigger` nesting `<button>` inside `<button>` by converting `<DropdownMenuTrigger>` to use the `asChild` composition pattern in `src/app/(portal)/dashboard/layout.tsx` and `revenue-statistics-card.tsx`.
+  * **Base UI Menu Context:** Resolved a crash (`MenuGroupContext is missing`) caused by `DropdownMenuLabel` incorrectly rendering a `MenuPrimitive.GroupLabel` outside a `MenuGroup`. Changed `DropdownMenuLabel` in `dropdown-menu.tsx` to render a standard `div`.
+  * **Turbopack Compiler Crash:** Identified and removed Unicode box-drawing characters (e.g. `───`) from JSX comments in `layout.tsx`, `overview-client-shell.tsx`, `page.tsx`, and `shared-skeletons.tsx`. The Next.js Rust compiler was crashing at byte boundaries on these decorative characters.
+  * Verified development and production builds successfully compile without hydration warnings or compiler panics.
 
 Every AI agent must:
 

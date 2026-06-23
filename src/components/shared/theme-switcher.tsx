@@ -36,7 +36,7 @@ export function ThemeSwitcher() {
         const isActive = theme === value;
         return (
           <Tooltip key={value}>
-            <TooltipTrigger asChild>
+            <TooltipTrigger render={
               <button
                 id={`theme-switcher-${value}`}
                 type="button"
@@ -52,7 +52,7 @@ export function ThemeSwitcher() {
               >
                 <Icon size={15} />
               </button>
-            </TooltipTrigger>
+            } />
             <TooltipContent side="bottom">
               <p>{label}</p>
             </TooltipContent>

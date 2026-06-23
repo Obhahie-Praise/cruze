@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Dashboard overview with real-time business metrics, revenue statistics, and product insights.",
 };
 
-// ─── Metric Cards Server Component ───────────────────────────────────────────
+// Metric Cards Server Component
 async function MetricCardsSection() {
   try {
     const metrics = await getMetricCards();
@@ -32,7 +32,7 @@ async function MetricCardsSection() {
   }
 }
 
-// ─── Charts + Tables Server Component ────────────────────────────────────────
+// Charts + Tables Server Component
 async function OverviewContentSection() {
   try {
     const [revenueData, topProducts, recentProducts] = await Promise.all([
@@ -57,7 +57,7 @@ async function OverviewContentSection() {
   }
 }
 
-// ─── Overview Page ────────────────────────────────────────────────────────────
+// Overview Page
 export default function DashboardOverviewPage() {
   return (
     <div className="mx-auto max-w-7xl w-full flex flex-col gap-6">

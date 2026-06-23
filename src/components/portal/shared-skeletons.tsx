@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// ─── Metric Cards Skeleton ──────────────────────────────────────────────────
+// Metric Cards Skeleton
 export function MetricCardsSkeleton({ count = 4 }: { count?: number }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -21,7 +21,7 @@ export function MetricCardsSkeleton({ count = 4 }: { count?: number }) {
   );
 }
 
-// ─── Analytics Chart Skeleton ───────────────────────────────────────────────
+// Analytics Chart Skeleton
 export function AnalyticsChartSkeleton() {
   return (
     <Card className="w-full">
@@ -49,7 +49,7 @@ export function AnalyticsChartSkeleton() {
   );
 }
 
-// ─── Data Table Skeleton ────────────────────────────────────────────────────
+// Data Table Skeleton
 export function DataTableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
   return (
     <Card className="w-full">
@@ -99,7 +99,7 @@ export function DataTableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?
   );
 }
 
-// ─── Product Grid Skeleton ──────────────────────────────────────────────────
+// Product Grid Skeleton
 export function ProductGridSkeleton({ count = 8 }: { count?: number }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -124,7 +124,7 @@ export function ProductGridSkeleton({ count = 8 }: { count?: number }) {
   );
 }
 
-// ─── Support Ticket Skeleton ───────────────────────────────────────────────
+// Support Ticket Skeleton
 export function SupportTicketSkeleton({ count = 3 }: { count?: number }) {
   return (
     <div className="space-y-4">

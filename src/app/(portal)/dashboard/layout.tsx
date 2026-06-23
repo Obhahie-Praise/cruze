@@ -124,7 +124,7 @@ function DashboardSidebar() {
   return (
     <>
       <Sidebar collapsible="icon">
-        {/* ── Header / Brand ─────────────────────────────────── */}
+        {/* Header / Brand */ }
         <SidebarHeader className="h-14 justify-center px-3">
           <Link
             href="/dashboard"
@@ -139,7 +139,7 @@ function DashboardSidebar() {
 
         <Separator className="mb-0" />
 
-        {/* ── Navigation ─────────────────────────────────────── */}
+        {/* Navigation */ }
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
@@ -190,24 +190,25 @@ function DashboardSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        {/* ── Footer / Profile ────────────────────────────────── */}
+        {/* Footer / Profile */ }
         <SidebarFooter className="p-1">
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger render={
                   <SidebarMenuButton
                     size="lg"
                     tooltip="Account"
                     aria-label="Account menu"
                     id="sidebar-profile-button"
-                  >
+                  />
+                }>
                   {isPending ? (
                     <>
                       <Skeleton className="h-8 w-8 rounded-full shrink-0" />
                       <div className="flex min-w-0 flex-col gap-1">
-                        <Skeleton className="h-3 w-24 rounded" />
-                        <Skeleton className="h-2.5 w-32 rounded" />
+                         <Skeleton className="h-3 w-24 rounded" />
+                         <Skeleton className="h-2.5 w-32 rounded" />
                       </div>
                     </>
                   ) : (
@@ -226,8 +227,7 @@ function DashboardSidebar() {
                       </div>
                     </>
                   )}
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
+                </DropdownMenuTrigger>
 
                 <DropdownMenuContent side="top" align="start" sideOffset={8}>
                   <DropdownMenuLabel className="font-normal">
@@ -282,7 +282,7 @@ export default function DashboardLayout({
       <DashboardSidebar />
 
       <SidebarInset>
-        {/* ── Top Navigation Bar ──────────────────────────────── */}
+        {/* Top Navigation Bar */ }
         <header className="relative flex h-14 shrink-0 items-center border-b border-border bg-background px-4">
           {/* Left: Sidebar trigger */}
           <div className="flex items-center">
@@ -305,7 +305,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        {/* ── Main Content Area ───────────────────────────────── */}
+        {/* Main Content Area */ }
         <main
           id="dashboard-main-content"
           className="flex flex-1 flex-col overflow-y-auto p-6"
