@@ -55,7 +55,7 @@ Defines the primary objective currently being worked on.
 
 Input:
 
-* Core E-Commerce Storefront Layout (Header, Footer, Navigation) — authentication infrastructure is complete.
+* Corrective Hardening: Authentication pipeline audit & reliability fixes, hydration mismatches resolution, and database synchronization check.
 
 ---
 
@@ -75,6 +75,9 @@ Input:
 * Authentication UI & User Flow (Sign In page, Sign Up page, AuthLayout split-screen design, Google OAuth integration via Better Auth, email/password auth, role-based redirect logic, ADMIN/CUSTOMER role assignment, dashboard sidebar real user data + profile dropdown with logout, storefront homepage session-aware display, route protection middleware — production build passes with zero errors)
 * Auth Reliability & Recovery (Session persistence with adjustable remember-me duration, orphaned user/account auto-recovery logic in Better Auth server hooks, forgot password recovery flow via Resend API, and password reset form/page layout)
 * Application-wide Route-level Loading Skeletons (Created custom loading skeletons for all core pages and route groups: storefront layout/product grid, dashboard overview analytics and tables, deals list, support tickets list, orders, products, analytics, customers, authentication split-screen, and account/profile dashboard)
+* Root Cause Analysis and Bug Fixes:
+  * Authentication: Fixed `unable_to_create_user` error caused by Prisma schema mismatch (replaced `expiresAt` with `accessTokenExpiresAt` and `refreshTokenExpiresAt` in Account model).
+  * Hydration Mismatches: Resolved nested `<button>` errors caused by incorrectly passing a `render` prop to Radix's `DropdownMenuTrigger` instead of using `asChild`. Fixed in `layout.tsx` and `revenue-statistics-card.tsx`.
 
 ---
 
@@ -88,7 +91,6 @@ Input:
 
 * None
 
-
 ---
 
 # Next Up
@@ -99,6 +101,7 @@ Tracks the highest-priority work that should be completed next.
 
 Input:
 
+* **ACTION REQUIRED BY USER**: Please run `npx prisma migrate dev` or `npx prisma db push` to apply the database schema fixes to your remote database. The database agent sandbox couldn't reach the database server via port 5432.
 * Core E-Commerce Storefront Layout (Header, Footer, Navigation)
 * Product listing and detail pages
 
@@ -141,16 +144,9 @@ Tracks the outcome of the most recent implementation session.
 
 Input:
 
-* Created and applied initial database migration via `prisma migrate dev --name init` and generated client library with `@prisma/client` v7.8.0.
-* Integrated Better Auth: configured `prismaAdapter` in server `auth.ts`, mapped database hooks to default to "CUSTOMER" role on sign-up, and defined the `role` field on `user.additionalFields`.
-* Extended client-side auth in `src/lib/auth-client.ts` with `inferAdditionalFields` to dynamically sync user properties on the client side.
-* Protected routes with Next.js Middleware: `/dashboard/*` restricted to ADMIN users; `/profile`, `/checkout`, and `/support` restricted to authenticated sessions.
-* Created UploadThing core configuration with 7 custom endpoints protected by session validation and role authorization.
-* Created `/dashboard/deals` and `/dashboard/support` placeholder pages.
-* Enhanced sidebar search with `Ctrl+L` / `Cmd+L` shortcut wiring.
-* Resolved Next.js Middleware Edge Runtime compatibility issue with lightweight API fetch to `/api/auth/get-session`.
-* Verified `pnpm build` completes successfully with zero errors.
-* **Authentication UI Session**: Installed `checkbox` and `alert` Shadcn components. Updated `auth.ts` to add Google OAuth provider (`GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`) and role assignment hook (jeffcruze@gmail.com → ADMIN, all others → CUSTOMER). Created `AuthLayout` split-screen component (left: form, right: branded panel with grid pattern + ThemeSwitcher). Created `SignInForm` and `SignUpForm` client components with email/password + Google OAuth, loading states, error handling via Alert, role-based redirect logic. Updated `/signin` and `/signup` pages. Updated storefront homepage (`/`) to server-side fetch session and conditionally display user name/email. Rewrote dashboard layout to use `useSession` for real user data in sidebar, initials-based avatar fallback, skeleton loading states, and a Shadcn DropdownMenu profile button with Account Settings and destructive Logout that calls `signOut()` and redirects to `/signin`. Production build passed with zero compilation errors (22/22 routes).
+* Diagnosed and fixed the authentication user creation pipeline. The failure during signup (`unable_to_create_user`) occurred because Better Auth attempts to write `accessTokenExpiresAt` and `refreshTokenExpiresAt` to the `Account` table, but our Prisma schema had a single `expiresAt` field. This caused `prisma.account.create` to throw an unknown field error, leaving the newly created `User` record orphaned in the DB without a valid `Account` or `Session`. We updated `prisma/schema.prisma` to match Better Auth's expectations.
+* Investigated hydration mismatches involving button elements. Traced the root cause to improper Radix UI prop usage in `src/app/(portal)/dashboard/layout.tsx` and `src/components/portal/revenue-statistics-card.tsx`. The `DropdownMenuTrigger` component was being passed a `render={<Button />}` prop, which generated invalid nested button DOM elements (`<button render="[object Object]"><button>...</button></button>`). Fixed this by using the standard `asChild` composition pattern instead.
+* **NOTE**: The environment lacks direct database access due to network firewall/proxy to neon database. The user will need to run the prisma migrations manually.
 
 ---
 
@@ -176,7 +172,7 @@ Input:
 
 * Status: Healthy
 
-Reason: Project setup, routes, theme switcher, layout framework, database schema, auth client/server config, file uploads, and middleware route security have been successfully built and validated. Next.js compiler, TypeScript checks, and ESLint checks run successfully with zero errors.
+Reason: Project setup, routes, theme switcher, layout framework, database schema, auth client/server config, file uploads, and middleware route security have been successfully built and validated. Hydration and authentication mismatches have been identified and fixed. Next.js compiler, TypeScript checks, and ESLint checks run successfully with zero errors.
 
 ---
 
@@ -188,13 +184,11 @@ Records the most recent update to this file.
 
 Input:
 
-Date: 2026-06-22
+Date: 2026-06-23
 
 Updated By: Antigravity
 
-Summary: Completed all authentication reliability repairs, remember-me session persistence configurations, forgot password email flow with Resend API, and password reset functionality. Built custom route-level loading skeletons across the application (for all dashboard, storefront, authentication, and user account route groups). The production build compiles successfully with zero type or lint errors.
-
-
+Summary: Completed root cause investigation for hydration errors and user creation failures. The issues stemmed from Prisma schema misalignment with Better Auth and incorrect prop usage in DropdownMenuTrigger. Applied the fixes to codebase.
 
 ---
 

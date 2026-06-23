@@ -127,17 +127,15 @@ export function RevenueStatisticsCard({ data, filter, onFilterChange }: RevenueC
             Revenue Statistics
           </span>
           <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Revenue chart options"
-                  id="revenue-chart-menu"
-                />
-              }
-            >
-              <MoreHorizontal size={16} />
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Revenue chart options"
+                id="revenue-chart-menu"
+              >
+                <MoreHorizontal size={16} />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-52">
               <DropdownMenuSub>

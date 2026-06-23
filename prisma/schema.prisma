@@ -119,7 +119,10 @@ model Account {
   providerId            String
   accessToken           String?
   refreshToken          String?
-  expiresAt             DateTime?
+  idToken               String?
+  scope                 String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
   password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt

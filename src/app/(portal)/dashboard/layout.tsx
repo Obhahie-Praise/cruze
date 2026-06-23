@@ -195,16 +195,13 @@ function DashboardSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
-                <DropdownMenuTrigger
-                  render={
-                    <SidebarMenuButton
-                      size="lg"
-                      tooltip="Account"
-                      aria-label="Account menu"
-                      id="sidebar-profile-button"
-                    />
-                  }
-                >
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    size="lg"
+                    tooltip="Account"
+                    aria-label="Account menu"
+                    id="sidebar-profile-button"
+                  >
                   {isPending ? (
                     <>
                       <Skeleton className="h-8 w-8 rounded-full shrink-0" />
@@ -229,7 +226,8 @@ function DashboardSidebar() {
                       </div>
                     </>
                   )}
-                </DropdownMenuTrigger>
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
 
                 <DropdownMenuContent side="top" align="start" sideOffset={8}>
                   <DropdownMenuLabel className="font-normal">
