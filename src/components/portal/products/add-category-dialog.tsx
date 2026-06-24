@@ -11,14 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -28,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { createCategory } from "@/lib/products-actions";
 import { toast } from "sonner";
 
@@ -133,6 +126,7 @@ export function AddCategoryDialog({
   };
 
   const isValid = form.formState.isValid;
+  const errors = form.formState.errors;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -151,180 +145,122 @@ export function AddCategoryDialog({
           </Button>
         </DialogHeader>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-2"
-          >
-            {/* Category Name */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Category Name <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g. Men's Casual Wear" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 mt-2"
+        >
+          {/* Category Name */}
+          <div className="space-y-2">
+            <Label htmlFor="name">
+              Category Name <span className="text-destructive">*</span>
+            </Label>
+            <Input id="name" placeholder="e.g. Men's Casual Wear" {...form.register("name")} />
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+          </div>
 
-            {/* Description */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Category Description{" "}
-                    <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Describe this category..."
-                      rows={3}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Description */}
+          <div className="space-y-2">
+            <Label htmlFor="description">
+              Category Description <span className="text-destructive">*</span>
+            </Label>
+            <Textarea id="description" placeholder="Describe this category..." rows={3} {...form.register("description")} />
+            {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
+          </div>
 
-            {/* Target Audience */}
-            <FormField
-              control={form.control}
-              name="targetAudience"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Target Audience <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="e.g. Men, Women, Unisex, Teenagers..."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Target Audience */}
+          <div className="space-y-2">
+            <Label htmlFor="targetAudience">
+              Target Audience <span className="text-destructive">*</span>
+            </Label>
+            <Input id="targetAudience" placeholder="e.g. Men, Women, Unisex, Teenagers..." {...form.register("targetAudience")} />
+            {errors.targetAudience && <p className="text-sm text-destructive">{errors.targetAudience.message}</p>}
+          </div>
 
-            {/* Occasion */}
-            <FormField
-              control={form.control}
-              name="occasion"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Occasion <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select occasion" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {OCCASION_OPTIONS.map((o) => (
-                        <SelectItem key={o.value} value={o.value}>
-                          {o.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Occasion */}
+          <div className="space-y-2">
+            <Label htmlFor="occasion">
+              Occasion <span className="text-destructive">*</span>
+            </Label>
+            <Select
+              onValueChange={(val) => form.setValue("occasion", val || "", { shouldValidate: true })}
+              defaultValue={form.getValues("occasion") || undefined}
+            >
+              <SelectTrigger id="occasion">
+                <SelectValue placeholder="Select occasion" />
+              </SelectTrigger>
+              <SelectContent>
+                {OCCASION_OPTIONS.map((o) => (
+                  <SelectItem key={o.value} value={o.value}>
+                    {o.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.occasion && <p className="text-sm text-destructive">{errors.occasion.message}</p>}
+          </div>
 
-            {/* Season */}
-            <FormField
-              control={form.control}
-              name="season"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Season <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select season" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {SEASON_OPTIONS.map((s) => (
-                        <SelectItem key={s.value} value={s.value}>
-                          {s.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Season */}
+          <div className="space-y-2">
+            <Label htmlFor="season">
+              Season <span className="text-destructive">*</span>
+            </Label>
+            <Select
+              onValueChange={(val) => form.setValue("season", val || "", { shouldValidate: true })}
+              defaultValue={form.getValues("season") || undefined}
+            >
+              <SelectTrigger id="season">
+                <SelectValue placeholder="Select season" />
+              </SelectTrigger>
+              <SelectContent>
+                {SEASON_OPTIONS.map((s) => (
+                  <SelectItem key={s.value} value={s.value}>
+                    {s.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.season && <p className="text-sm text-destructive">{errors.season.message}</p>}
+          </div>
 
-            {/* Material */}
-            <FormField
-              control={form.control}
-              name="material"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Material <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select material" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {MATERIAL_OPTIONS.map((m) => (
-                        <SelectItem key={m.value} value={m.value}>
-                          {m.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Material */}
+          <div className="space-y-2">
+            <Label htmlFor="material">
+              Material <span className="text-destructive">*</span>
+            </Label>
+            <Select
+              onValueChange={(val) => form.setValue("material", val || "", { shouldValidate: true })}
+              defaultValue={form.getValues("material") || undefined}
+            >
+              <SelectTrigger id="material">
+                <SelectValue placeholder="Select material" />
+              </SelectTrigger>
+              <SelectContent>
+                {MATERIAL_OPTIONS.map((m) => (
+                  <SelectItem key={m.value} value={m.value}>
+                    {m.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.material && <p className="text-sm text-destructive">{errors.material.message}</p>}
+          </div>
 
-            {/* Server Error */}
-            {serverError && (
-              <p className="text-sm text-destructive">{serverError}</p>
-            )}
+          {/* Server Error */}
+          {serverError && (
+            <p className="text-sm text-destructive">{serverError}</p>
+          )}
 
-            {/* Submit */}
-            <div className="flex justify-end pt-2">
-              <Button
-                type="submit"
-                disabled={!isValid || isPending}
-                id="add-category-submit"
-              >
-                {isPending ? "Creating..." : "Finish"}
-              </Button>
-            </div>
-          </form>
-        </Form>
+          {/* Submit */}
+          <div className="flex justify-end pt-2">
+            <Button
+              type="submit"
+              disabled={!isValid || isPending}
+              id="add-category-submit"
+            >
+              {isPending ? "Creating..." : "Finish"}
+            </Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

@@ -21,7 +21,7 @@ export default async function ProductsManagementPage({ searchParams }: ProductsP
   
   const categoryId = params.category as string | undefined;
   const search = params.search as string | undefined;
-  const filter = params.filter as any;
+  const filter = params.filter as import("@/lib/products-actions").ProductFilter | undefined;
   const page = parseInt(params.page as string) || 1;
 
   // Parallel fetch for categories and products

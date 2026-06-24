@@ -173,9 +173,9 @@ export async function createCategory(
 // Products — listing with search / filter / pagination
 // ---------------------------------------------------------------------------
 
-type StockFilter = "in-stock" | "out-of-stock" | "low-stock";
-type StatusFilter = "featured" | "active" | "archived" | "in-cart" | "ordered";
-type ProductFilter = StockFilter | StatusFilter;
+export type StockFilter = "in-stock" | "out-of-stock" | "low-stock";
+export type StatusFilter = "featured" | "active" | "archived" | "in-cart" | "ordered";
+export type ProductFilter = StockFilter | StatusFilter;
 
 export async function getProducts(opts: {
   page?: number;

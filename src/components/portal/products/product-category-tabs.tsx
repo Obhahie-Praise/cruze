@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -29,14 +29,6 @@ export function ProductCategoryTabs({
   const searchParams = useSearchParams();
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [localCategories, setLocalCategories] = useState(categories);
-  const [localAllCount, setLocalAllCount] = useState(allCount);
-
-  // Sync if parent re-renders with updated data
-  useEffect(() => {
-    setLocalCategories(categories);
-    setLocalAllCount(allCount);
-  }, [categories, allCount]);
 
   const handleTabClick = useCallback(
     (categoryId: string | null) => {
@@ -92,12 +84,12 @@ export function ProductCategoryTabs({
                 : "bg-muted/60 text-muted-foreground"
             )}
           >
-            {localAllCount}
+            {allCount}
           </Badge>
         </button>
 
         {/* Dynamic Category Tabs */}
-        {localCategories.map(({ id, name, count }) => {
+        {categories.map(({ id, name, count }) => {
           const isActive = activeId === id;
           return (
             <button

@@ -22,7 +22,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
@@ -36,10 +35,11 @@ import {
   FolderOpenIcon
 } from "hugeicons-react";
 import { formatCurrency } from "@/lib/utils";
-import type { ProductRow, ProductsResult } from "@/lib/products-actions";
+import type { ProductsResult } from "@/lib/products-actions";
 import { deleteProducts, archiveProducts, moveProductsToCategory } from "@/lib/products-actions";
+import { buttonVariants } from "@/components/ui/button";
+import Image from "next/image";
 import { toast } from "sonner";
-import { AddCategoryDialog } from "./add-category-dialog";
 
 interface ProductsTableClientProps {
   data: ProductsResult;
@@ -190,10 +190,8 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
                 <Delete01Icon size={14} className="mr-1.5" /> Delete
               </Button>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-7 text-xs" disabled={isPending}>
-                    <FolderOpenIcon size={14} className="mr-1.5" /> Move
-                  </Button>
+                <DropdownMenuTrigger className={buttonVariants({ variant: "outline", size: "sm", className: "h-7 text-xs" })} disabled={isPending}>
+                  <FolderOpenIcon size={14} className="mr-1.5" /> Move
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Select Category</DropdownMenuLabel>
@@ -210,11 +208,9 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
         </div>
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="h-9">
-              <FilterIcon size={16} className="mr-2" />
-              Filter
-            </Button>
+          <DropdownMenuTrigger className={buttonVariants({ variant: "outline", size: "sm", className: "h-9" })}>
+            <FilterIcon size={16} className="mr-2" />
+            Filter
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuLabel>Filter Products</DropdownMenuLabel>
@@ -245,7 +241,7 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
                 <TableRow>
                   <TableHead className="w-12 pl-4">
                     <Checkbox
-                      checked={isAllSelected || (isSomeSelected ? "indeterminate" : false)}
+                      checked={isAllSelected || (isSomeSelected ? true : false)}
                       onCheckedChange={toggleSelectAll}
                       aria-label="Select all"
                     />
@@ -282,7 +278,7 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 shrink-0 rounded-md bg-muted flex items-center justify-center overflow-hidden border">
                             {product.images?.[0] ? (
-                              <img src={product.images[0].url} alt={product.name} className="h-full w-full object-cover" />
+                              <Image src={product.images[0].url} alt={product.name} width={40} height={40} className="h-full w-full object-cover" />
                             ) : (
                               <span className="text-xs text-muted-foreground">No img</span>
                             )}
@@ -329,10 +325,8 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
                       </TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <MoreVerticalIcon size={16} />
-                            </Button>
+                          <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", size: "icon", className: "h-8 w-8" })}>
+                            <MoreVerticalIcon size={16} />
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
