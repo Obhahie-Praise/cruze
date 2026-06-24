@@ -94,8 +94,8 @@ export function SignInForm() {
           },
         },
       });
-    } catch (err: any) {
-      setError(err?.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
@@ -110,8 +110,8 @@ export function SignInForm() {
         provider: "google",
         callbackURL: "/",
       });
-    } catch (err: any) {
-      setError(err?.message || "An error occurred with Google authentication.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred with Google authentication.");
       setIsGoogleLoading(false);
     }
   };

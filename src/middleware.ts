@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
 
   // Fetch session from Better Auth via API endpoint to avoid importing Prisma adapter in Middleware
   let sessionData: {
-    session: any;
+    session: Record<string, unknown>;
     user: {
       role?: string;
     };

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { signUp, signIn } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Field, FieldLabel, FieldContent, FieldError, FieldSet } from "@/components/ui/field";
+import { Field, FieldLabel, FieldContent, FieldSet } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon, ViewIcon, ViewOffIcon } from "hugeicons-react";
@@ -65,8 +65,8 @@ export function SignUpForm() {
           },
         },
       });
-    } catch (err: any) {
-      setError(err?.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
@@ -81,8 +81,8 @@ export function SignUpForm() {
         provider: "google",
         callbackURL: "/",
       });
-    } catch (err: any) {
-      setError(err?.message || "An error occurred with Google authentication.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred with Google authentication.");
       setIsGoogleLoading(false);
     }
   };

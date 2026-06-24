@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { cn, formatCurrency } from "@/lib/utils";
+import Image from "next/image";
 import { OrderDetailModal } from "./order-detail-modal";
 import { OrderStatus, type Prisma } from "@/lib/db-types";
 
@@ -98,10 +98,12 @@ export function OrderCard({ order }: OrderCardProps) {
             {/* Product Image */}
             <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
               {imageUrl ? (
-                <img
+                <Image
                   src={imageUrl}
                   alt={itemName}
-                  className="h-full w-full object-cover"
+                  fill
+                  unoptimized
+                  className="object-cover"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">

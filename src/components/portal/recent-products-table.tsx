@@ -27,6 +27,26 @@ interface RecentProductsTableProps {
   onPageChange: (page: number) => void;
 }
 
+interface SortHeaderProps {
+  field: SortField;
+  children: React.ReactNode;
+  onToggle: (field: SortField) => void;
+}
+
+function SortHeader({ field, children, onToggle }: SortHeaderProps) {
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="-ml-3 h-8 font-medium text-muted-foreground hover:text-foreground"
+      onClick={() => onToggle(field)}
+    >
+      {children}
+      <ArrowUpDown size={12} className="ml-1" />
+    </Button>
+  );
+}
+
 export function RecentProductsTable({
   products,
   total,
@@ -62,26 +82,6 @@ export function RecentProductsTable({
     }
   }
 
-  function SortHeader({
-    field,
-    children,
-  }: {
-    field: SortField;
-    children: React.ReactNode;
-  }) {
-    return (
-      <Button
-        variant="ghost"
-        size="sm"
-        className="-ml-3 h-8 font-medium text-muted-foreground hover:text-foreground"
-        onClick={() => toggleSort(field)}
-      >
-        {children}
-        <ArrowUpDown size={12} className="ml-1" />
-      </Button>
-    );
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -105,13 +105,13 @@ export function RecentProductsTable({
                   <TableHead className="pl-6">Product</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>
-                    <SortHeader field="sellingPrice">Price</SortHeader>
+                    <SortHeader field="sellingPrice" onToggle={toggleSort}>Price</SortHeader>
                   </TableHead>
                   <TableHead>
-                    <SortHeader field="stock">Stock</SortHeader>
+                    <SortHeader field="stock" onToggle={toggleSort}>Stock</SortHeader>
                   </TableHead>
                   <TableHead>
-                    <SortHeader field="createdAt">Created</SortHeader>
+                    <SortHeader field="createdAt" onToggle={toggleSort}>Created</SortHeader>
                   </TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>

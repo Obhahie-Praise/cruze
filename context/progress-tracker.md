@@ -55,7 +55,7 @@ Defines the primary objective currently being worked on.
 
 Input:
 
-* Corrective Hardening: Authentication pipeline audit & reliability fixes, hydration mismatches resolution, and database synchronization check.
+* Emergency Stabilization Audit: Restore application stability, fix linting, Prisma resolution, auth drop-offs, hydration, and turbopack crashes.
 
 ---
 
@@ -79,7 +79,11 @@ Input:
   * Authentication: Fixed `unable_to_create_user` error caused by Prisma schema mismatch (replaced `expiresAt` with `accessTokenExpiresAt` and `refreshTokenExpiresAt` in Account model).
   * Hydration Mismatches: Resolved nested `<button>` errors caused by incorrectly passing a `render` prop to Radix's `DropdownMenuTrigger` instead of using `asChild`. Fixed in `layout.tsx` and `revenue-statistics-card.tsx`.
 * Orders Management System (`/dashboard/orders`): Database schema audit for orders, metrics, statuses, refunds, UI tabs, order cards, and operational detail modal with full actions correctly implemented and typed against the generated Prisma client.
-* Hardening: Resolved hugeicons import mismatch, replaced missing shadcn elements with custom implementations based on Base UI primitives (e.g. `RefundDialog`, `OrderDetailModal`), and introduced a `Toaster` from `sonner`.
+* Emergency Stabilization Audit & Hardening: 
+  * Fixed linting failures (`any` types, unused vars, try/catch JSX creation, inline component declaration rendering issues in recent/top products).
+  * Removed deprecated Radix primitive properties and created stable base custom implementations for `OrderDetailModal` and `RefundDialog`.
+  * Resolved Prisma `.prisma/client/index-browser` module resolution errors by enforcing `@/lib/db-types` barrel re-export instead of relative paths.
+  * Turbopack & hydration issues fully cleared. Production build passes cleanly with zero errors.
 
 ---
 
@@ -148,9 +152,8 @@ Tracks the outcome of the most recent implementation session.
 Input:
 
 * Completed Orders Management page UI and server actions.
-* Resolved implicit any types and missing exports (hugeicons names).
-* Fixed `OrderStatus` referencing missing values (`PAID/PROCESSING/SHIPPED`) in `dashboard-analytics.ts` and successfully updated them to the new unified enum schema (`NEW/PENDING/READY/DELIVERED`).
-* Implemented barrel export (`@/lib/db-types`) for the generated prisma schema.
+* Conducted Emergency Stabilization Audit. Addressed severe linting warnings, replaced rogue `any` instances, isolated component declaration structures causing hydration render resets (in recent-products-table and top-products-table), fixed implicit UI component errors, replaced `<img>` tags with `<Image />`, and ensured a clean, zero-error compiler build for both `tsc` and `next build`.
+* Resolved Prisma generated client resolution errors by migrating all internal paths to the `@/lib/db-types` barrel export, eliminating `.prisma/client/index-browser` crashes on the client.
 * Diagnosed and fixed the authentication user creation pipeline. The failure during signup (`unable_to_create_user`) occurred because Better Auth attempts to write `accessTokenExpiresAt` and `refreshTokenExpiresAt` to the `Account` table, but our Prisma schema had a single `expiresAt` field. This caused `prisma.account.create` to throw an unknown field error, leaving the newly created `User` record orphaned in the DB without a valid `Account` or `Session`. We updated `prisma/schema.prisma` to match Better Auth's expectations.
 * Investigated hydration mismatches involving button elements. Traced the root cause to improper Radix UI prop usage in `src/app/(portal)/dashboard/layout.tsx` and `src/components/portal/revenue-statistics-card.tsx`. The `DropdownMenuTrigger` component was being passed a `render={<Button />}` prop, which generated invalid nested button DOM elements (`<button render="[object Object]"><button>...</button></button>`). Fixed this by using the standard `asChild` composition pattern instead.
 * **NOTE**: The environment lacks direct database access due to network firewall/proxy to neon database. The user will need to run the prisma migrations manually.

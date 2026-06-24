@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 
 // Metric Cards Server Component
 async function MetricCardsSection() {
+  let metrics;
   try {
-    const metrics = await getMetricCards();
-    return <OverviewMetricCards {...metrics} />;
+    metrics = await getMetricCards();
   } catch {
     return (
       <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
@@ -30,24 +30,19 @@ async function MetricCardsSection() {
       </div>
     );
   }
+  return <OverviewMetricCards {...metrics} />;
 }
 
 // Charts + Tables Server Component
 async function OverviewContentSection() {
+  let data;
   try {
     const [revenueData, topProducts, recentProducts] = await Promise.all([
       getRevenueChartData("monthly"),
       getTopProducts(1, 10),
       getRecentProducts(1, 10),
     ]);
-
-    return (
-      <OverviewClientShell
-        initialRevenueData={revenueData}
-        initialTopProducts={topProducts}
-        initialRecentProducts={recentProducts}
-      />
-    );
+    data = { revenueData, topProducts, recentProducts };
   } catch {
     return (
       <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
@@ -55,6 +50,14 @@ async function OverviewContentSection() {
       </div>
     );
   }
+
+  return (
+    <OverviewClientShell
+      initialRevenueData={data.revenueData}
+      initialTopProducts={data.topProducts}
+      initialRecentProducts={data.recentProducts}
+    />
+  );
 }
 
 // Overview Page
