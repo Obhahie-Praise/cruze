@@ -176,6 +176,11 @@ model Product {
   stock          Int      @default(0)
   trackInventory Boolean  @default(true)
   published      Boolean  @default(false)
+  featured       Boolean  @default(false)
+  archived       Boolean  @default(false)
+
+  // Analytics
+  viewsCount Int @default(0)
 
   // SEO Metadata
   seoTitle       String?
@@ -219,6 +224,12 @@ model Category {
   slug        String  @unique
   description String?
   imageUrl    String?
+
+  // Catalog Metadata
+  targetAudience String?
+  occasion       String?
+  season         String?
+  material       String?
 
   // SEO Metadata
   seoTitle       String?

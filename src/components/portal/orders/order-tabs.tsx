@@ -50,7 +50,7 @@ export function OrderTabs({ currentStatus, counts = {} }: OrderTabsProps) {
     <div
       role="tablist"
       aria-label="Filter orders by status"
-      className="flex flex-wrap gap-1.5 rounded-xl bg-muted/40 border border-border p-1.5"
+      className="flex flex-wrap gap-1.5 rounded-xl p-1.5"
     >
       {TABS.map(({ label, value }) => {
         const isActive = activeTab === value;
@@ -68,7 +68,7 @@ export function OrderTabs({ currentStatus, counts = {} }: OrderTabsProps) {
               "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-150",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               isActive
-                ? "bg-background text-foreground shadow-sm"
+                ? "bg-muted text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/60"
             )}
           >

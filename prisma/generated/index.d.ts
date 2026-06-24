@@ -9411,6 +9411,7 @@ export namespace Prisma {
     sellingPrice: Decimal | null
     compareAtPrice: Decimal | null
     stock: number | null
+    viewsCount: number | null
   }
 
   export type ProductSumAggregateOutputType = {
@@ -9418,6 +9419,7 @@ export namespace Prisma {
     sellingPrice: Decimal | null
     compareAtPrice: Decimal | null
     stock: number | null
+    viewsCount: number | null
   }
 
   export type ProductMinAggregateOutputType = {
@@ -9432,6 +9434,9 @@ export namespace Prisma {
     stock: number | null
     trackInventory: boolean | null
     published: boolean | null
+    featured: boolean | null
+    archived: boolean | null
+    viewsCount: number | null
     seoTitle: string | null
     seoDescription: string | null
     seoKeywords: string | null
@@ -9452,6 +9457,9 @@ export namespace Prisma {
     stock: number | null
     trackInventory: boolean | null
     published: boolean | null
+    featured: boolean | null
+    archived: boolean | null
+    viewsCount: number | null
     seoTitle: string | null
     seoDescription: string | null
     seoKeywords: string | null
@@ -9472,6 +9480,9 @@ export namespace Prisma {
     stock: number
     trackInventory: number
     published: number
+    featured: number
+    archived: number
+    viewsCount: number
     seoTitle: number
     seoDescription: number
     seoKeywords: number
@@ -9487,6 +9498,7 @@ export namespace Prisma {
     sellingPrice?: true
     compareAtPrice?: true
     stock?: true
+    viewsCount?: true
   }
 
   export type ProductSumAggregateInputType = {
@@ -9494,6 +9506,7 @@ export namespace Prisma {
     sellingPrice?: true
     compareAtPrice?: true
     stock?: true
+    viewsCount?: true
   }
 
   export type ProductMinAggregateInputType = {
@@ -9508,6 +9521,9 @@ export namespace Prisma {
     stock?: true
     trackInventory?: true
     published?: true
+    featured?: true
+    archived?: true
+    viewsCount?: true
     seoTitle?: true
     seoDescription?: true
     seoKeywords?: true
@@ -9528,6 +9544,9 @@ export namespace Prisma {
     stock?: true
     trackInventory?: true
     published?: true
+    featured?: true
+    archived?: true
+    viewsCount?: true
     seoTitle?: true
     seoDescription?: true
     seoKeywords?: true
@@ -9548,6 +9567,9 @@ export namespace Prisma {
     stock?: true
     trackInventory?: true
     published?: true
+    featured?: true
+    archived?: true
+    viewsCount?: true
     seoTitle?: true
     seoDescription?: true
     seoKeywords?: true
@@ -9655,6 +9677,9 @@ export namespace Prisma {
     stock: number
     trackInventory: boolean
     published: boolean
+    featured: boolean
+    archived: boolean
+    viewsCount: number
     seoTitle: string | null
     seoDescription: string | null
     seoKeywords: string | null
@@ -9694,6 +9719,9 @@ export namespace Prisma {
     stock?: boolean
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     seoKeywords?: boolean
@@ -9721,6 +9749,9 @@ export namespace Prisma {
     stock?: boolean
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     seoKeywords?: boolean
@@ -9742,6 +9773,9 @@ export namespace Prisma {
     stock?: boolean
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     seoKeywords?: boolean
@@ -9763,6 +9797,9 @@ export namespace Prisma {
     stock?: boolean
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     seoKeywords?: boolean
@@ -9771,7 +9808,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "slug" | "sku" | "costPrice" | "sellingPrice" | "compareAtPrice" | "stock" | "trackInventory" | "published" | "seoTitle" | "seoDescription" | "seoKeywords" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "slug" | "sku" | "costPrice" | "sellingPrice" | "compareAtPrice" | "stock" | "trackInventory" | "published" | "featured" | "archived" | "viewsCount" | "seoTitle" | "seoDescription" | "seoKeywords" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Product$categoryArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
@@ -9810,6 +9847,9 @@ export namespace Prisma {
       stock: number
       trackInventory: boolean
       published: boolean
+      featured: boolean
+      archived: boolean
+      viewsCount: number
       seoTitle: string | null
       seoDescription: string | null
       seoKeywords: string | null
@@ -10256,6 +10296,9 @@ export namespace Prisma {
     readonly stock: FieldRef<"Product", 'Int'>
     readonly trackInventory: FieldRef<"Product", 'Boolean'>
     readonly published: FieldRef<"Product", 'Boolean'>
+    readonly featured: FieldRef<"Product", 'Boolean'>
+    readonly archived: FieldRef<"Product", 'Boolean'>
+    readonly viewsCount: FieldRef<"Product", 'Int'>
     readonly seoTitle: FieldRef<"Product", 'String'>
     readonly seoDescription: FieldRef<"Product", 'String'>
     readonly seoKeywords: FieldRef<"Product", 'String'>
@@ -11946,6 +11989,10 @@ export namespace Prisma {
     slug: string | null
     description: string | null
     imageUrl: string | null
+    targetAudience: string | null
+    occasion: string | null
+    season: string | null
+    material: string | null
     seoTitle: string | null
     seoDescription: string | null
     createdAt: Date | null
@@ -11958,6 +12005,10 @@ export namespace Prisma {
     slug: string | null
     description: string | null
     imageUrl: string | null
+    targetAudience: string | null
+    occasion: string | null
+    season: string | null
+    material: string | null
     seoTitle: string | null
     seoDescription: string | null
     createdAt: Date | null
@@ -11970,6 +12021,10 @@ export namespace Prisma {
     slug: number
     description: number
     imageUrl: number
+    targetAudience: number
+    occasion: number
+    season: number
+    material: number
     seoTitle: number
     seoDescription: number
     createdAt: number
@@ -11984,6 +12039,10 @@ export namespace Prisma {
     slug?: true
     description?: true
     imageUrl?: true
+    targetAudience?: true
+    occasion?: true
+    season?: true
+    material?: true
     seoTitle?: true
     seoDescription?: true
     createdAt?: true
@@ -11996,6 +12055,10 @@ export namespace Prisma {
     slug?: true
     description?: true
     imageUrl?: true
+    targetAudience?: true
+    occasion?: true
+    season?: true
+    material?: true
     seoTitle?: true
     seoDescription?: true
     createdAt?: true
@@ -12008,6 +12071,10 @@ export namespace Prisma {
     slug?: true
     description?: true
     imageUrl?: true
+    targetAudience?: true
+    occasion?: true
+    season?: true
+    material?: true
     seoTitle?: true
     seoDescription?: true
     createdAt?: true
@@ -12093,6 +12160,10 @@ export namespace Prisma {
     slug: string
     description: string | null
     imageUrl: string | null
+    targetAudience: string | null
+    occasion: string | null
+    season: string | null
+    material: string | null
     seoTitle: string | null
     seoDescription: string | null
     createdAt: Date
@@ -12122,6 +12193,10 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     imageUrl?: boolean
+    targetAudience?: boolean
+    occasion?: boolean
+    season?: boolean
+    material?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     createdAt?: boolean
@@ -12136,6 +12211,10 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     imageUrl?: boolean
+    targetAudience?: boolean
+    occasion?: boolean
+    season?: boolean
+    material?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     createdAt?: boolean
@@ -12148,6 +12227,10 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     imageUrl?: boolean
+    targetAudience?: boolean
+    occasion?: boolean
+    season?: boolean
+    material?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     createdAt?: boolean
@@ -12160,13 +12243,17 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     imageUrl?: boolean
+    targetAudience?: boolean
+    occasion?: boolean
+    season?: boolean
+    material?: boolean
     seoTitle?: boolean
     seoDescription?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "imageUrl" | "seoTitle" | "seoDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "imageUrl" | "targetAudience" | "occasion" | "season" | "material" | "seoTitle" | "seoDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | Category$productsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -12185,6 +12272,10 @@ export namespace Prisma {
       slug: string
       description: string | null
       imageUrl: string | null
+      targetAudience: string | null
+      occasion: string | null
+      season: string | null
+      material: string | null
       seoTitle: string | null
       seoDescription: string | null
       createdAt: Date
@@ -12618,6 +12709,10 @@ export namespace Prisma {
     readonly slug: FieldRef<"Category", 'String'>
     readonly description: FieldRef<"Category", 'String'>
     readonly imageUrl: FieldRef<"Category", 'String'>
+    readonly targetAudience: FieldRef<"Category", 'String'>
+    readonly occasion: FieldRef<"Category", 'String'>
+    readonly season: FieldRef<"Category", 'String'>
+    readonly material: FieldRef<"Category", 'String'>
     readonly seoTitle: FieldRef<"Category", 'String'>
     readonly seoDescription: FieldRef<"Category", 'String'>
     readonly createdAt: FieldRef<"Category", 'DateTime'>
@@ -31387,6 +31482,9 @@ export namespace Prisma {
     stock: 'stock',
     trackInventory: 'trackInventory',
     published: 'published',
+    featured: 'featured',
+    archived: 'archived',
+    viewsCount: 'viewsCount',
     seoTitle: 'seoTitle',
     seoDescription: 'seoDescription',
     seoKeywords: 'seoKeywords',
@@ -31416,6 +31514,10 @@ export namespace Prisma {
     slug: 'slug',
     description: 'description',
     imageUrl: 'imageUrl',
+    targetAudience: 'targetAudience',
+    occasion: 'occasion',
+    season: 'season',
+    material: 'material',
     seoTitle: 'seoTitle',
     seoDescription: 'seoDescription',
     createdAt: 'createdAt',
@@ -32375,6 +32477,9 @@ export namespace Prisma {
     stock?: IntFilter<"Product"> | number
     trackInventory?: BoolFilter<"Product"> | boolean
     published?: BoolFilter<"Product"> | boolean
+    featured?: BoolFilter<"Product"> | boolean
+    archived?: BoolFilter<"Product"> | boolean
+    viewsCount?: IntFilter<"Product"> | number
     seoTitle?: StringNullableFilter<"Product"> | string | null
     seoDescription?: StringNullableFilter<"Product"> | string | null
     seoKeywords?: StringNullableFilter<"Product"> | string | null
@@ -32401,6 +32506,9 @@ export namespace Prisma {
     stock?: SortOrder
     trackInventory?: SortOrder
     published?: SortOrder
+    featured?: SortOrder
+    archived?: SortOrder
+    viewsCount?: SortOrder
     seoTitle?: SortOrderInput | SortOrder
     seoDescription?: SortOrderInput | SortOrder
     seoKeywords?: SortOrderInput | SortOrder
@@ -32430,6 +32538,9 @@ export namespace Prisma {
     stock?: IntFilter<"Product"> | number
     trackInventory?: BoolFilter<"Product"> | boolean
     published?: BoolFilter<"Product"> | boolean
+    featured?: BoolFilter<"Product"> | boolean
+    archived?: BoolFilter<"Product"> | boolean
+    viewsCount?: IntFilter<"Product"> | number
     seoTitle?: StringNullableFilter<"Product"> | string | null
     seoDescription?: StringNullableFilter<"Product"> | string | null
     seoKeywords?: StringNullableFilter<"Product"> | string | null
@@ -32456,6 +32567,9 @@ export namespace Prisma {
     stock?: SortOrder
     trackInventory?: SortOrder
     published?: SortOrder
+    featured?: SortOrder
+    archived?: SortOrder
+    viewsCount?: SortOrder
     seoTitle?: SortOrderInput | SortOrder
     seoDescription?: SortOrderInput | SortOrder
     seoKeywords?: SortOrderInput | SortOrder
@@ -32484,6 +32598,9 @@ export namespace Prisma {
     stock?: IntWithAggregatesFilter<"Product"> | number
     trackInventory?: BoolWithAggregatesFilter<"Product"> | boolean
     published?: BoolWithAggregatesFilter<"Product"> | boolean
+    featured?: BoolWithAggregatesFilter<"Product"> | boolean
+    archived?: BoolWithAggregatesFilter<"Product"> | boolean
+    viewsCount?: IntWithAggregatesFilter<"Product"> | number
     seoTitle?: StringNullableWithAggregatesFilter<"Product"> | string | null
     seoDescription?: StringNullableWithAggregatesFilter<"Product"> | string | null
     seoKeywords?: StringNullableWithAggregatesFilter<"Product"> | string | null
@@ -32563,6 +32680,10 @@ export namespace Prisma {
     slug?: StringFilter<"Category"> | string
     description?: StringNullableFilter<"Category"> | string | null
     imageUrl?: StringNullableFilter<"Category"> | string | null
+    targetAudience?: StringNullableFilter<"Category"> | string | null
+    occasion?: StringNullableFilter<"Category"> | string | null
+    season?: StringNullableFilter<"Category"> | string | null
+    material?: StringNullableFilter<"Category"> | string | null
     seoTitle?: StringNullableFilter<"Category"> | string | null
     seoDescription?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
@@ -32576,6 +32697,10 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
+    targetAudience?: SortOrderInput | SortOrder
+    occasion?: SortOrderInput | SortOrder
+    season?: SortOrderInput | SortOrder
+    material?: SortOrderInput | SortOrder
     seoTitle?: SortOrderInput | SortOrder
     seoDescription?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -32592,6 +32717,10 @@ export namespace Prisma {
     name?: StringFilter<"Category"> | string
     description?: StringNullableFilter<"Category"> | string | null
     imageUrl?: StringNullableFilter<"Category"> | string | null
+    targetAudience?: StringNullableFilter<"Category"> | string | null
+    occasion?: StringNullableFilter<"Category"> | string | null
+    season?: StringNullableFilter<"Category"> | string | null
+    material?: StringNullableFilter<"Category"> | string | null
     seoTitle?: StringNullableFilter<"Category"> | string | null
     seoDescription?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
@@ -32605,6 +32734,10 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
+    targetAudience?: SortOrderInput | SortOrder
+    occasion?: SortOrderInput | SortOrder
+    season?: SortOrderInput | SortOrder
+    material?: SortOrderInput | SortOrder
     seoTitle?: SortOrderInput | SortOrder
     seoDescription?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -32623,6 +32756,10 @@ export namespace Prisma {
     slug?: StringWithAggregatesFilter<"Category"> | string
     description?: StringNullableWithAggregatesFilter<"Category"> | string | null
     imageUrl?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    targetAudience?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    occasion?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    season?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    material?: StringNullableWithAggregatesFilter<"Category"> | string | null
     seoTitle?: StringNullableWithAggregatesFilter<"Category"> | string | null
     seoDescription?: StringNullableWithAggregatesFilter<"Category"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
@@ -34358,6 +34495,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -34383,6 +34523,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -34408,6 +34551,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34433,6 +34579,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34458,6 +34607,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -34478,6 +34630,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34497,6 +34652,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34573,6 +34731,10 @@ export namespace Prisma {
     slug: string
     description?: string | null
     imageUrl?: string | null
+    targetAudience?: string | null
+    occasion?: string | null
+    season?: string | null
+    material?: string | null
     seoTitle?: string | null
     seoDescription?: string | null
     createdAt?: Date | string
@@ -34586,6 +34748,10 @@ export namespace Prisma {
     slug: string
     description?: string | null
     imageUrl?: string | null
+    targetAudience?: string | null
+    occasion?: string | null
+    season?: string | null
+    material?: string | null
     seoTitle?: string | null
     seoDescription?: string | null
     createdAt?: Date | string
@@ -34599,6 +34765,10 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    targetAudience?: NullableStringFieldUpdateOperationsInput | string | null
+    occasion?: NullableStringFieldUpdateOperationsInput | string | null
+    season?: NullableStringFieldUpdateOperationsInput | string | null
+    material?: NullableStringFieldUpdateOperationsInput | string | null
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34612,6 +34782,10 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    targetAudience?: NullableStringFieldUpdateOperationsInput | string | null
+    occasion?: NullableStringFieldUpdateOperationsInput | string | null
+    season?: NullableStringFieldUpdateOperationsInput | string | null
+    material?: NullableStringFieldUpdateOperationsInput | string | null
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34625,6 +34799,10 @@ export namespace Prisma {
     slug: string
     description?: string | null
     imageUrl?: string | null
+    targetAudience?: string | null
+    occasion?: string | null
+    season?: string | null
+    material?: string | null
     seoTitle?: string | null
     seoDescription?: string | null
     createdAt?: Date | string
@@ -34637,6 +34815,10 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    targetAudience?: NullableStringFieldUpdateOperationsInput | string | null
+    occasion?: NullableStringFieldUpdateOperationsInput | string | null
+    season?: NullableStringFieldUpdateOperationsInput | string | null
+    material?: NullableStringFieldUpdateOperationsInput | string | null
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34649,6 +34831,10 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    targetAudience?: NullableStringFieldUpdateOperationsInput | string | null
+    occasion?: NullableStringFieldUpdateOperationsInput | string | null
+    season?: NullableStringFieldUpdateOperationsInput | string | null
+    material?: NullableStringFieldUpdateOperationsInput | string | null
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36567,6 +36753,9 @@ export namespace Prisma {
     stock?: SortOrder
     trackInventory?: SortOrder
     published?: SortOrder
+    featured?: SortOrder
+    archived?: SortOrder
+    viewsCount?: SortOrder
     seoTitle?: SortOrder
     seoDescription?: SortOrder
     seoKeywords?: SortOrder
@@ -36580,6 +36769,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     compareAtPrice?: SortOrder
     stock?: SortOrder
+    viewsCount?: SortOrder
   }
 
   export type ProductMaxOrderByAggregateInput = {
@@ -36594,6 +36784,9 @@ export namespace Prisma {
     stock?: SortOrder
     trackInventory?: SortOrder
     published?: SortOrder
+    featured?: SortOrder
+    archived?: SortOrder
+    viewsCount?: SortOrder
     seoTitle?: SortOrder
     seoDescription?: SortOrder
     seoKeywords?: SortOrder
@@ -36614,6 +36807,9 @@ export namespace Prisma {
     stock?: SortOrder
     trackInventory?: SortOrder
     published?: SortOrder
+    featured?: SortOrder
+    archived?: SortOrder
+    viewsCount?: SortOrder
     seoTitle?: SortOrder
     seoDescription?: SortOrder
     seoKeywords?: SortOrder
@@ -36627,6 +36823,7 @@ export namespace Prisma {
     sellingPrice?: SortOrder
     compareAtPrice?: SortOrder
     stock?: SortOrder
+    viewsCount?: SortOrder
   }
 
   export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -36701,6 +36898,10 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
+    targetAudience?: SortOrder
+    occasion?: SortOrder
+    season?: SortOrder
+    material?: SortOrder
     seoTitle?: SortOrder
     seoDescription?: SortOrder
     createdAt?: SortOrder
@@ -36713,6 +36914,10 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
+    targetAudience?: SortOrder
+    occasion?: SortOrder
+    season?: SortOrder
+    material?: SortOrder
     seoTitle?: SortOrder
     seoDescription?: SortOrder
     createdAt?: SortOrder
@@ -36725,6 +36930,10 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
+    targetAudience?: SortOrder
+    occasion?: SortOrder
+    season?: SortOrder
+    material?: SortOrder
     seoTitle?: SortOrder
     seoDescription?: SortOrder
     createdAt?: SortOrder
@@ -40585,6 +40794,10 @@ export namespace Prisma {
     slug: string
     description?: string | null
     imageUrl?: string | null
+    targetAudience?: string | null
+    occasion?: string | null
+    season?: string | null
+    material?: string | null
     seoTitle?: string | null
     seoDescription?: string | null
     createdAt?: Date | string
@@ -40597,6 +40810,10 @@ export namespace Prisma {
     slug: string
     description?: string | null
     imageUrl?: string | null
+    targetAudience?: string | null
+    occasion?: string | null
+    season?: string | null
+    material?: string | null
     seoTitle?: string | null
     seoDescription?: string | null
     createdAt?: Date | string
@@ -40759,6 +40976,10 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    targetAudience?: NullableStringFieldUpdateOperationsInput | string | null
+    occasion?: NullableStringFieldUpdateOperationsInput | string | null
+    season?: NullableStringFieldUpdateOperationsInput | string | null
+    material?: NullableStringFieldUpdateOperationsInput | string | null
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40771,6 +40992,10 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    targetAudience?: NullableStringFieldUpdateOperationsInput | string | null
+    occasion?: NullableStringFieldUpdateOperationsInput | string | null
+    season?: NullableStringFieldUpdateOperationsInput | string | null
+    material?: NullableStringFieldUpdateOperationsInput | string | null
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40920,6 +41145,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -40944,6 +41172,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -40984,6 +41215,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41008,6 +41242,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41032,6 +41269,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -41056,6 +41296,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -41109,6 +41352,9 @@ export namespace Prisma {
     stock?: IntFilter<"Product"> | number
     trackInventory?: BoolFilter<"Product"> | boolean
     published?: BoolFilter<"Product"> | boolean
+    featured?: BoolFilter<"Product"> | boolean
+    archived?: BoolFilter<"Product"> | boolean
+    viewsCount?: IntFilter<"Product"> | number
     seoTitle?: StringNullableFilter<"Product"> | string | null
     seoDescription?: StringNullableFilter<"Product"> | string | null
     seoKeywords?: StringNullableFilter<"Product"> | string | null
@@ -41163,6 +41409,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -41187,6 +41436,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -41256,6 +41508,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41280,6 +41535,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41524,6 +41782,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -41548,6 +41809,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -41619,6 +41883,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41643,6 +41910,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41955,6 +42225,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -41979,6 +42252,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -42074,6 +42350,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42098,6 +42377,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42564,6 +42846,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -42588,6 +42873,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -42683,6 +42971,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42707,6 +42998,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43948,6 +44242,9 @@ export namespace Prisma {
     stock?: number
     trackInventory?: boolean
     published?: boolean
+    featured?: boolean
+    archived?: boolean
+    viewsCount?: number
     seoTitle?: string | null
     seoDescription?: string | null
     seoKeywords?: string | null
@@ -43967,6 +44264,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43991,6 +44291,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44015,6 +44318,9 @@ export namespace Prisma {
     stock?: IntFieldUpdateOperationsInput | number
     trackInventory?: BoolFieldUpdateOperationsInput | boolean
     published?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    viewsCount?: IntFieldUpdateOperationsInput | number
     seoTitle?: NullableStringFieldUpdateOperationsInput | string | null
     seoDescription?: NullableStringFieldUpdateOperationsInput | string | null
     seoKeywords?: NullableStringFieldUpdateOperationsInput | string | null
