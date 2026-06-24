@@ -101,7 +101,7 @@ Tracks work currently being implemented.
 
 Input:
 
-* None
+* Products UI Refinement and Add Product Modal (`/dashboard/products`)
 
 ---
 

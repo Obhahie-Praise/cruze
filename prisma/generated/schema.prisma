@@ -190,6 +190,9 @@ model Product {
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
+  promotionId String?
+  promotion   Promotion? @relation(fields: [promotionId], references: [id], onDelete: SetNull)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -199,8 +202,10 @@ model Product {
   cartItems    CartItem[]
   orderItems   OrderItem[]
   productViews ProductView[]
+  keywords     Keyword[]
 
   @@index([categoryId])
+  @@index([promotionId])
   @@index([slug])
   @@map("product")
 }
@@ -210,6 +215,7 @@ model ProductImage {
   productId String
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   url       String
+  isCover   Boolean  @default(false)
   order     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -434,6 +440,34 @@ model SupportTicket {
   @@index([userId])
   @@index([ticketNumber])
   @@map("support_ticket")
+}
+
+model Promotion {
+  id              String   @id @default(cuid())
+  name            String
+  description     String?
+  discountPercent Decimal  @db.Decimal(5, 2)
+  startDate       DateTime
+  endDate         DateTime
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  products Product[]
+
+  @@index([isActive])
+  @@map("promotion")
+}
+
+model Keyword {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+
+  @@map("keyword")
 }
 
 model SupportMessage {

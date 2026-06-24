@@ -40,13 +40,15 @@ import { deleteProducts, archiveProducts, moveProductsToCategory } from "@/lib/p
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import { toast } from "sonner";
+import { AddProductDialog } from "./add-product-dialog";
 
 interface ProductsTableClientProps {
   data: ProductsResult;
   categories: { id: string; name: string }[];
+  promotions: { id: string; name: string; discountPercent: number }[];
 }
 
-export function ProductsTableClient({ data, categories }: ProductsTableClientProps) {
+export function ProductsTableClient({ data, categories, promotions }: ProductsTableClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -58,6 +60,9 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
   const defaultSearch = searchParams.get("search") ?? "";
   const [searchValue, setSearchValue] = React.useState(defaultSearch);
   const [debouncedSearch] = useDebounce(searchValue, 400);
+
+  // Add Product modal state
+  const [isAddProductOpen, setIsAddProductOpen] = React.useState(false);
 
   // Sync search to URL
   React.useEffect(() => {
@@ -169,12 +174,12 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
       {/* Toolbar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="relative">
-            <Search01Icon size={16} className="absolute left-2.5 top-2.5 text-muted-foreground" />
+          <div className="relative flex items-center">
+            <Search01Icon size={16} className="absolute left-3 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search products..."
-              className="pl-9 w-[250px] lg:w-[300px]"
+              className="pl-9 pr-4 w-[250px] lg:w-[300px]"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
@@ -207,12 +212,16 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
           )}
         </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "outline", size: "sm", className: "h-9" })}>
-            <FilterIcon size={16} className="mr-2" />
-            Filter
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[200px]">
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setIsAddProductOpen(true)} className="h-9">
+            Add Product
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className={buttonVariants({ variant: "outline", size: "sm", className: "h-9" })}>
+              <FilterIcon size={16} className="mr-2" />
+              Filter
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuLabel>Filter Products</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuRadioGroup value={currentFilter} onValueChange={handleFilterChange}>
@@ -375,6 +384,16 @@ export function ProductsTableClient({ data, categories }: ProductsTableClientPro
           </Button>
         </div>
       </div>
+
+      <AddProductDialog 
+        open={isAddProductOpen} 
+        onOpenChange={setIsAddProductOpen} 
+        categories={categories}
+        promotions={promotions}
+        onSuccess={() => {
+          router.refresh();
+        }}
+      />
     </div>
   );
 }

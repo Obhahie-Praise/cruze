@@ -130,7 +130,7 @@ export function AddCategoryDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto sm:[&>button.absolute]:hidden">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle>Add Category</DialogTitle>
           <Button
@@ -139,7 +139,7 @@ export function AddCategoryDialog({
             type="button"
             onClick={handleClose}
             disabled={isPending}
-            className="text-muted-foreground hover:text-foreground"
+            className="hidden sm:block text-muted-foreground hover:text-foreground"
           >
             Cancel
           </Button>

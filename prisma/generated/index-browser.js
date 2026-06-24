@@ -206,6 +206,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   seoDescription: 'seoDescription',
   seoKeywords: 'seoKeywords',
   categoryId: 'categoryId',
+  promotionId: 'promotionId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -214,6 +215,7 @@ exports.Prisma.ProductImageScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   url: 'url',
+  isCover: 'isCover',
   order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -362,6 +364,25 @@ exports.Prisma.SupportTicketScalarFieldEnum = {
   description: 'description',
   status: 'status',
   priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PromotionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  discountPercent: 'discountPercent',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.KeywordScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -521,6 +542,8 @@ exports.Prisma.ModelName = {
   Deal: 'Deal',
   Coupon: 'Coupon',
   SupportTicket: 'SupportTicket',
+  Promotion: 'Promotion',
+  Keyword: 'Keyword',
   SupportMessage: 'SupportMessage',
   ProductView: 'ProductView',
   SearchEvent: 'SearchEvent',

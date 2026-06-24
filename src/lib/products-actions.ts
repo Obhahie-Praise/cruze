@@ -138,6 +138,17 @@ export const getCategories = unstable_cache(
   { revalidate: 60 }
 );
 
+export const getActivePromotions = unstable_cache(
+  async () => {
+    return prisma.promotion.findMany({
+      where: { isActive: true },
+      orderBy: { createdAt: "desc" },
+    });
+  },
+  ["active-promotions"],
+  { revalidate: 60 }
+);
+
 export async function createCategory(
   input: CreateCategoryInput
 ): Promise<{ success: boolean; error?: string }> {
@@ -159,6 +170,65 @@ export async function createCategory(
         season: input.season,
         material: input.material,
       },
+    });
+
+    revalidatePath("/dashboard/products");
+    return { success: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    return { success: false, error: message };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Product Creation
+// ---------------------------------------------------------------------------
+
+export interface CreateProductInput {
+  name: string;
+  description: string;
+  costPrice: number;
+  sellingPrice: number;
+  stock: number;
+  categoryId: string;
+  promotionId?: string;
+  keywords: string[];
+  images: { url: string; isCover: boolean; order: number }[];
+}
+
+export async function createProduct(input: CreateProductInput): Promise<{ success: boolean; error?: string }> {
+  try {
+    const baseSlug = toSlug(input.name);
+    const existing = await prisma.product.count({
+      where: { slug: { startsWith: baseSlug } },
+    });
+    const slug = existing > 0 ? `${baseSlug}-${existing}` : baseSlug;
+
+    await prisma.product.create({
+      data: {
+        name: input.name.trim(),
+        slug,
+        description: input.description.trim(),
+        costPrice: input.costPrice,
+        sellingPrice: input.sellingPrice,
+        stock: input.stock,
+        categoryId: input.categoryId,
+        promotionId: input.promotionId || null,
+        published: true, // Auto-publish for now
+        keywords: {
+          connectOrCreate: input.keywords.map(kw => ({
+            where: { name: kw.trim() },
+            create: { name: kw.trim() }
+          }))
+        },
+        images: {
+          create: input.images.map(img => ({
+            url: img.url,
+            isCover: img.isCover,
+            order: img.order
+          }))
+        }
+      }
     });
 
     revalidatePath("/dashboard/products");

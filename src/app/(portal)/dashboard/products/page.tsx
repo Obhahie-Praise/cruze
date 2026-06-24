@@ -5,7 +5,7 @@ import { ProductsMetrics } from "@/components/portal/products/products-metrics";
 import { ProductCategoryTabs } from "@/components/portal/products/product-category-tabs";
 import { ProductsTableClient } from "@/components/portal/products/products-table-client";
 import { OrderMetricsSkeleton, DataTableSkeleton } from "@/components/portal/shared-skeletons";
-import { getCategories, getProducts } from "@/lib/products-actions";
+import { getCategories, getProducts, getActivePromotions } from "@/lib/products-actions";
 
 export const metadata: Metadata = {
   title: "Products Management — Dashboard",
@@ -25,7 +25,7 @@ export default async function ProductsManagementPage({ searchParams }: ProductsP
   const page = parseInt(params.page as string) || 1;
 
   // Parallel fetch for categories and products
-  const [categories, productsData] = await Promise.all([
+  const [categories, productsData, promotions] = await Promise.all([
     getCategories(),
     getProducts({
       page,
@@ -34,6 +34,7 @@ export default async function ProductsManagementPage({ searchParams }: ProductsP
       filter,
       pageSize: 10, // Can be adjusted
     }),
+    getActivePromotions(),
   ]);
 
   const allCount = categories.reduce((acc, c) => acc + c._count.products, 0);
@@ -73,6 +74,7 @@ export default async function ProductsManagementPage({ searchParams }: ProductsP
           <ProductsTableClient 
             data={productsData} 
             categories={categories.map(c => ({ id: c.id, name: c.name }))}
+            promotions={promotions.map(p => ({ id: p.id, name: p.name, discountPercent: Number(p.discountPercent) }))}
           />
         </Suspense>
       </div>
