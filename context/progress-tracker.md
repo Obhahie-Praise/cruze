@@ -55,7 +55,7 @@ Defines the primary objective currently being worked on.
 
 Input:
 
-* Emergency Stabilization Audit: Restore application stability, fix linting, Prisma resolution, auth drop-offs, hydration, and turbopack crashes.
+* Awaiting User Database Sync
 
 ---
 
@@ -84,6 +84,10 @@ Input:
   * Removed deprecated Radix primitive properties and created stable base custom implementations for `OrderDetailModal` and `RefundDialog`.
   * Resolved Prisma `.prisma/client/index-browser` module resolution errors by enforcing `@/lib/db-types` barrel re-export instead of relative paths.
   * Turbopack & hydration issues fully cleared. Production build passes cleanly with zero errors.
+* Auth Session Stability & Layout Adjustments:
+  * **Dashboard Layout Fixes**: Implemented a `sticky top-0 z-50` header so navigation remains visible while scrolling. Moved the ThemeSwitcher out of the header and into the sidebar footer on mobile devices for improved UX.
+  * **Database Connection Resilience**: Diagnosed `P1001` connection drops to the Neon database. The `@prisma/adapter-pg` was incorrectly instantiated with a raw connection string object. Replaced it with an explicitly managed `pg.Pool` with `max: 10`, `idleTimeoutMillis: 30000`, and `connectionTimeoutMillis: 15000` to allow Neon cold-start wakeups without timing out.
+  * **Middleware Graceful Degradation**: Modified `src/middleware.ts` so that if the authentication service or database goes down temporarily, users with a valid `better-auth.session_token` cookie are passed through rather than immediately redirected to `/signin`. This prevents session destruction during momentary connection outages.
 
 ---
 
@@ -95,7 +99,7 @@ Tracks work currently being implemented.
 
 Input:
 
-* Awaiting User Database Sync
+* None
 
 ---
 
@@ -194,15 +198,15 @@ Records the most recent update to this file.
 
 Input:
 
-Date: 2026-06-23
+Date: 2026-06-24
 
 Updated By: Antigravity
 
-* **Hydration Mismatches & UI Crashes Resolved**:
-  * **Nested Buttons:** Fixed Radix UI `DropdownMenuTrigger` nesting `<button>` inside `<button>` by converting `<DropdownMenuTrigger>` to use the `asChild` composition pattern in `src/app/(portal)/dashboard/layout.tsx` and `revenue-statistics-card.tsx`.
-  * **Base UI Menu Context:** Resolved a crash (`MenuGroupContext is missing`) caused by `DropdownMenuLabel` incorrectly rendering a `MenuPrimitive.GroupLabel` outside a `MenuGroup`. Changed `DropdownMenuLabel` in `dropdown-menu.tsx` to render a standard `div`.
-  * **Turbopack Compiler Crash:** Identified and removed Unicode box-drawing characters (e.g. `───`) from JSX comments in `layout.tsx`, `overview-client-shell.tsx`, `page.tsx`, and `shared-skeletons.tsx`. The Next.js Rust compiler was crashing at byte boundaries on these decorative characters.
-  * Verified development and production builds successfully compile without hydration warnings or compiler panics.
+* **Auth Session Stability & Layout Fixes**:
+  * Moved the mobile Theme Switcher into the sidebar footer and made the top navigation sticky in the dashboard layout.
+  * Added explicit `pg.Pool` configuration in `src/lib/prisma.ts` with increased connection timeouts to resolve `P1001` DatabaseNotReachable errors caused by Neon's cold starts.
+  * Updated `src/middleware.ts` to allow requests with an existing session cookie to bypass immediate `/signin` redirection when the database temporarily fails to respond, avoiding unnecessary session drops.
+  * Validated through `npx tsc` and `npx next build` with zero errors.
 
 Every AI agent must:
 
@@ -212,3 +216,4 @@ Every AI agent must:
 4. Ensure completed work, active work, and future work are accurately represented.
 
 This file acts as the project's operational memory and should always remain current.
+

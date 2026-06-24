@@ -26,6 +26,7 @@ export async function middleware(request: NextRequest) {
       role?: string;
     };
   } | null = null;
+  let isAuthError = false;
 
   try {
     const response = await fetch(`${request.nextUrl.origin}/api/auth/get-session`, {
@@ -35,9 +36,20 @@ export async function middleware(request: NextRequest) {
     });
     if (response.ok) {
       sessionData = await response.json();
+    } else {
+      isAuthError = true;
     }
   } catch (error) {
     console.error("Middleware auth fetch error:", error);
+    isAuthError = true;
+  }
+
+  // Graceful degradation: if the auth service is down but the user has a session token cookie,
+  // let the request through instead of forcing a logout.
+  const hasSessionCookie = request.headers.get("cookie")?.includes("better-auth.session_token");
+  if (isAuthError && hasSessionCookie) {
+    // Database temporarily unreachable. Let Next.js handle it (likely hitting error.tsx).
+    return NextResponse.next();
   }
 
   // Not authenticated — redirect to signin

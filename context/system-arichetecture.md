@@ -341,3 +341,16 @@ The architecture is considered successful when:
 The architecture should provide a stable foundation that allows the platform to evolve without requiring fundamental rewrites.
 
 Every implementation should strengthen the system rather than introduce unnecessary complexity.
+
+## Infrastructure Rule
+
+Authentication bugs must never be assumed to originate from Better Auth.
+
+Always verify:
+
+1. Database connectivity
+2. Prisma health
+3. Session storage
+4. Middleware behavior
+
+before modifying authentication logic.

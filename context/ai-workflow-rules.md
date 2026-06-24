@@ -347,6 +347,19 @@ The user should always understand what to do next.
 
 ---
 
+## Infrastructure Rule
+
+Authentication bugs must never be assumed to originate from Better Auth.
+
+Always verify:
+
+1. Database connectivity
+2. Prisma health
+3. Session storage
+4. Middleware behavior
+
+before modifying authentication logic.
+
 # Accessibility Rules
 
 All interfaces must support:
