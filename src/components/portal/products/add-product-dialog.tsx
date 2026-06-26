@@ -37,9 +37,9 @@ import { cn } from "@/lib/utils";
 const productSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   description: z.string().min(1, "Description is required").max(1000),
-  costPrice: z.coerce.number().min(0, "Must be >= 0"),
-  sellingPrice: z.coerce.number().min(0, "Must be >= 0"),
-  stock: z.coerce.number().int().min(0, "Must be >= 0"),
+  costPrice: z.number({ message: "Must be a number" }).min(0, "Must be >= 0"),
+  sellingPrice: z.number({ message: "Must be a number" }).min(0, "Must be >= 0"),
+  stock: z.number({ message: "Must be a number" }).int().min(0, "Must be >= 0"),
   categoryId: z.string().min(1, "Category is required"),
   promotionId: z.string().optional(),
 });
@@ -90,9 +90,11 @@ export function AddProductDialog({
   // Reset local state on close
   useEffect(() => {
     if (!open) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setImages([]);
       setKeywords([]);
       setKeywordInput("");
+      /* eslint-enable react-hooks/set-state-in-effect */
     }
   }, [open]);
 
@@ -173,8 +175,8 @@ export function AddProductDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col p-0 overflow-hidden sm:[&>button.absolute]:hidden">
-        <DialogHeader className="px-6 py-4 border-b flex flex-row items-center justify-between shrink-0">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] flex flex-col p-0 overflow-hidden sm:[&>button.absolute]:hidden">
+        <DialogHeader className="px-6 py-6 border-b flex flex-row items-center justify-between shrink-0">
           <DialogTitle>Add Product</DialogTitle>
           <Button
             variant="ghost"
@@ -194,192 +196,192 @@ export function AddProductDialog({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* Left Column */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">
-                    Product Name <span className="text-destructive">*</span>
-                  </Label>
-                  <Input id="name" placeholder="e.g. Vintage Leather Jacket" {...form.register("name")} />
-                  {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
-                </div>
+            {/* Product Name */}
+            <div className="space-y-2">
+              <Label htmlFor="name">
+                Product Name <span className="text-destructive">*</span>
+              </Label>
+              <Input id="name" placeholder="e.g. Vintage Leather Jacket" {...form.register("name")} />
+              {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description">
-                    Description <span className="text-destructive">*</span>
-                  </Label>
-                  <Textarea id="description" placeholder="Describe this product..." rows={4} {...form.register("description")} />
-                  {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
-                </div>
+            {/* Description */}
+            <div className="space-y-2">
+              <Label htmlFor="description">
+                Description <span className="text-destructive">*</span>
+              </Label>
+              <Textarea id="description" placeholder="Describe this product..." rows={4} {...form.register("description")} />
+              {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
+            </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="costPrice">
-                      Cost Price <span className="text-destructive">*</span>
-                    </Label>
-                    <Input id="costPrice" type="number" step="0.01" {...form.register("costPrice")} />
-                    {errors.costPrice && <p className="text-sm text-destructive">{errors.costPrice.message}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="sellingPrice">
-                      Selling Price <span className="text-destructive">*</span>
-                    </Label>
-                    <Input id="sellingPrice" type="number" step="0.01" {...form.register("sellingPrice")} />
-                    {errors.sellingPrice && <p className="text-sm text-destructive">{errors.sellingPrice.message}</p>}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="stock">
-                    Stock Quantity <span className="text-destructive">*</span>
-                  </Label>
-                  <Input id="stock" type="number" {...form.register("stock")} />
-                  {errors.stock && <p className="text-sm text-destructive">{errors.stock.message}</p>}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="categoryId">
-                    Category <span className="text-destructive">*</span>
-                  </Label>
-                  <Select
-                    onValueChange={(val) => form.setValue("categoryId", val || "", { shouldValidate: true })}
-                    defaultValue={form.getValues("categoryId") || undefined}
-                  >
-                    <SelectTrigger id="categoryId">
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((c) => (
-                        <SelectItem key={c.id} value={c.id}>
-                          {c.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {errors.categoryId && <p className="text-sm text-destructive">{errors.categoryId.message}</p>}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="promotionId">
-                    Promotion
-                  </Label>
-                  <Select
-                    onValueChange={(val) => form.setValue("promotionId", val || "", { shouldValidate: true })}
-                    defaultValue={form.getValues("promotionId") || undefined}
-                  >
-                    <SelectTrigger id="promotionId">
-                      <SelectValue placeholder="No active promotion" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">None</SelectItem>
-                      {promotions.map((p) => (
-                        <SelectItem key={p.id} value={p.id}>
-                          {p.name} (-{p.discountPercent}%)
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="keywords">
-                    Keywords <span className="text-destructive">*</span>
-                  </Label>
-                  <div className="flex flex-col gap-2">
-                    <Input
-                      id="keywords"
-                      placeholder="Type and press enter, comma, or period"
-                      value={keywordInput}
-                      onChange={(e) => setKeywordInput(e.target.value)}
-                      onKeyDown={handleKeywordKeyDown}
-                    />
-                    {keywords.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {keywords.map((kw) => (
-                          <Badge key={kw} variant="secondary" className="flex items-center gap-1">
-                            {kw}
-                            <button
-                              type="button"
-                              onClick={() => removeKeyword(kw)}
-                              className="text-muted-foreground hover:text-foreground"
-                            >
-                              <XIcon size={12} />
-                            </button>
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
+            {/* Pricing Section (Row 1) */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="costPrice">
+                  Cost Price <span className="text-destructive">*</span>
+                </Label>
+                <Input id="costPrice" type="number" step="0.01" {...form.register("costPrice", { valueAsNumber: true })} />
+                {errors.costPrice && <p className="text-sm text-destructive">{errors.costPrice.message}</p>}
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="sellingPrice">
+                  Selling Price <span className="text-destructive">*</span>
+                </Label>
+                <Input id="sellingPrice" type="number" step="0.01" {...form.register("sellingPrice", { valueAsNumber: true })} />
+                {errors.sellingPrice && <p className="text-sm text-destructive">{errors.sellingPrice.message}</p>}
+              </div>
+            </div>
 
-              {/* Right Column (Images) */}
-              <div className="space-y-4">
-                <Label>Product Images <span className="text-destructive">*</span></Label>
-                
-                <UploadDropzone
-                  endpoint="productImageUploader"
-                  onClientUploadComplete={(res) => {
-                    const newImgs = res.map((r, i) => ({
-                      url: r.url,
-                      isCover: images.length === 0 && i === 0, // first one is cover if none exists
-                      order: images.length + i,
-                    }));
-                    setImages((prev) => [...prev, ...newImgs]);
-                    toast.success("Images uploaded");
-                  }}
-                  onUploadError={(error: Error) => {
-                    toast.error(`Error: ${error.message}`);
-                  }}
-                  className="mb-4 ut-button:bg-primary ut-button:text-primary-foreground"
+            {/* Inventory & Category (Row 2) */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="stock">
+                  Stock Quantity <span className="text-destructive">*</span>
+                </Label>
+                <Input id="stock" type="number" {...form.register("stock", { valueAsNumber: true })} />
+                {errors.stock && <p className="text-sm text-destructive">{errors.stock.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="categoryId">
+                  Category <span className="text-destructive">*</span>
+                </Label>
+                <Select
+                  onValueChange={(val) => form.setValue("categoryId", val || "", { shouldValidate: true })}
+                  defaultValue={form.getValues("categoryId") || undefined}
+                >
+                  <SelectTrigger id="categoryId">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((c) => (
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.categoryId && <p className="text-sm text-destructive">{errors.categoryId.message}</p>}
+              </div>
+            </div>
+
+            {/* Promotion (Row 3) */}
+            <div className="space-y-2">
+              <Label htmlFor="promotionId">
+                Promotion
+              </Label>
+              <Select
+                onValueChange={(val) => form.setValue("promotionId", val || "", { shouldValidate: true })}
+                defaultValue={form.getValues("promotionId") || undefined}
+              >
+                <SelectTrigger id="promotionId">
+                  <SelectValue placeholder="No active promotion" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">None</SelectItem>
+                  {promotions.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.name} (-{p.discountPercent}%)
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Keywords (Row 4) */}
+            <div className="space-y-2">
+              <Label htmlFor="keywords">
+                Keywords <span className="text-destructive">*</span>
+              </Label>
+              <div className="flex flex-col gap-2">
+                <Input
+                  id="keywords"
+                  placeholder="Type and press enter, comma, or period"
+                  value={keywordInput}
+                  onChange={(e) => setKeywordInput(e.target.value)}
+                  onKeyDown={handleKeywordKeyDown}
                 />
-
-                {images.length > 0 && (
-                  <div className="grid grid-cols-2 gap-3 mt-4">
-                    {images.map((img) => (
-                      <div key={img.url} className={cn(
-                        "relative aspect-square rounded-md overflow-hidden border group",
-                        img.isCover && "ring-2 ring-primary border-transparent"
-                      )}>
-                        <Image src={img.url} alt="Product image" fill className="object-cover" />
-                        
-                        {/* Overlay actions */}
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-start justify-between p-2">
-                          <button
-                            type="button"
-                            title="Set as Cover"
-                            onClick={() => handleSetCover(img.url)}
-                            className={cn(
-                              "p-1.5 rounded-md text-white hover:bg-white/20 transition-colors",
-                              img.isCover && "text-yellow-400 opacity-100" // Always show star if cover
-                            )}
-                          >
-                            <StarIcon size={16} fill={img.isCover ? "currentColor" : "none"} />
-                          </button>
-
-                          <button
-                            type="button"
-                            title="Remove Image"
-                            onClick={() => handleRemoveImage(img.url)}
-                            className="p-1.5 rounded-md text-white hover:bg-destructive/80 transition-colors"
-                          >
-                            <XIcon size={16} />
-                          </button>
-                        </div>
-
-                        {img.isCover && (
-                          <div className="absolute bottom-0 inset-x-0 bg-primary/90 text-primary-foreground text-[10px] font-medium text-center py-0.5">
-                            COVER
-                          </div>
-                        )}
-                      </div>
+                {keywords.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {keywords.map((kw) => (
+                      <Badge key={kw} variant="secondary" className="flex items-center gap-1">
+                        {kw}
+                        <button
+                          type="button"
+                          onClick={() => removeKeyword(kw)}
+                          className="text-muted-foreground hover:text-foreground"
+                        >
+                          <XIcon size={12} />
+                        </button>
+                      </Badge>
                     ))}
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* Product Images (Row 5) */}
+            <div className="space-y-4">
+              <Label>Product Images <span className="text-destructive">*</span></Label>
+              
+              <UploadDropzone
+                endpoint="productImageUploader"
+                onClientUploadComplete={(res) => {
+                  const newImgs = res.map((r, i) => ({
+                    url: r.url,
+                    isCover: images.length === 0 && i === 0, // first one is cover if none exists
+                    order: images.length + i,
+                  }));
+                  setImages((prev) => [...prev, ...newImgs]);
+                  toast.success("Images uploaded");
+                }}
+                onUploadError={(error: Error) => {
+                  toast.error(`Error: ${error.message}`);
+                }}
+                className="mb-4 ut-button:bg-primary ut-button:text-primary-foreground"
+              />
+
+              {images.length > 0 && (
+                <div className="grid grid-cols-3 gap-3 mt-4">
+                  {images.map((img) => (
+                    <div key={img.url} className={cn(
+                      "relative aspect-square rounded-md overflow-hidden border group",
+                      img.isCover && "ring-2 ring-primary border-transparent"
+                    )}>
+                      <Image src={img.url} alt="Product image" fill className="object-cover" />
+                      
+                      {/* Overlay actions */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-start justify-between p-2">
+                        <button
+                          type="button"
+                          title="Set as Cover"
+                          onClick={() => handleSetCover(img.url)}
+                          className={cn(
+                            "p-1.5 rounded-md text-white hover:bg-white/20 transition-colors",
+                            img.isCover && "text-yellow-400 opacity-100" // Always show star if cover
+                          )}
+                        >
+                          <StarIcon size={16} fill={img.isCover ? "currentColor" : "none"} />
+                        </button>
+
+                        <button
+                          type="button"
+                          title="Remove Image"
+                          onClick={() => handleRemoveImage(img.url)}
+                          className="p-1.5 rounded-md text-white hover:bg-destructive/80 transition-colors"
+                        >
+                          <XIcon size={16} />
+                        </button>
+                      </div>
+
+                      {img.isCover && (
+                        <div className="absolute bottom-0 inset-x-0 bg-primary/90 text-primary-foreground text-[10px] font-medium text-center py-0.5">
+                          COVER
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Server Error */}

@@ -55,7 +55,7 @@ Defines the primary objective currently being worked on.
 
 Input:
 
-* Implementing Products Management Page (`/dashboard/products`)
+* UI refinement of the Add Product modal in the admin portal (`/dashboard/products`)
 
 ---
 
@@ -90,6 +90,7 @@ Input:
   * **Middleware Graceful Degradation**: Modified `src/middleware.ts` so that if the authentication service or database goes down temporarily, users with a valid `better-auth.session_token` cookie are passed through rather than immediately redirected to `/signin`. This prevents session destruction during momentary connection outages.
 * Products Management Page (`/dashboard/products`) completed. Included a database schema audit, adding missing fields to the `Category` and `Product` models (target audience, occasion, season, material, featured, archived, viewsCount). Implemented metrics cards, dynamic category tabs with counts, an "Add Category" modal with validation, and a full data table supporting search, filtering, bulk actions (delete, archive, move), and pagination, all directly fetching from the generated Prisma client.
 * Post-Implementation Lint Recovery completed successfully. Audited the products management page implementation and restored code quality by addressing TypeScript any types, unused variables, implicit any types in form fields, missing module definitions, and hydration mismatch warnings related to nested `<button>` structures. Removed experimental scratch files and verified full pass for `npm run lint` and `npm run build`.
+* Products UI Refinement of Add Product Modal (`/dashboard/products`): Reduced dialog width to `sm:max-w-lg` (512px) on desktop/tablet viewports. Redesigned layout to a single-column stacked format with 2-column sub-grids for pricing (Cost Price/Selling Price) and stock/category. Expanded images upload list to 3 columns. Fixed react-hook-form type mismatches and successfully verified type safety and linting.
 
 ---
 
@@ -101,7 +102,7 @@ Tracks work currently being implemented.
 
 Input:
 
-* Products UI Refinement and Add Product Modal (`/dashboard/products`)
+* None
 
 ---
 
@@ -208,10 +209,13 @@ Records the most recent update to this file.
 
 Input:
 
-Date: 2026-06-24
+Date: 2026-06-26
 
 Updated By: Antigravity
 
+* **Add Product Modal UI Refinement Plan**:
+  - Created implementation plan for reducing the width of the Add Product modal to `sm:max-w-lg` (512px) on desktop.
+  - Planned single-column stacked layout with compact side-by-side grids for pricing and stock/category fields.
 * **Products Management Page Implementation**:
   * Audited and updated the `Category` and `Product` Prisma models.
   * Developed the main layout using Shadcn UI.

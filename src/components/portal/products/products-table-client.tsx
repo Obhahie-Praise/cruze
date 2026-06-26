@@ -249,7 +249,7 @@ export function ProductsTableClient({ data, categories, promotions }: ProductsTa
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-12 pl-4">
+                  <TableHead className="w-12 pl-">
                     <Checkbox
                       checked={isAllSelected || (isSomeSelected ? true : false)}
                       onCheckedChange={toggleSelectAll}
