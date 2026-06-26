@@ -184,6 +184,7 @@ export function ProductsTableClient({ data, categories, promotions }: ProductsTa
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </div>
+          </div>
           
           {selectedIds.size > 0 && (
             <div className="flex items-center gap-2 ml-4 px-3 py-1.5 bg-muted/50 rounded-md border text-sm">
