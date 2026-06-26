@@ -55,7 +55,7 @@ Defines the primary objective currently being worked on.
 
 Input:
 
-* UI refinement of the Add Product modal in the admin portal (`/dashboard/products`)
+* Customer Management Page (`/dashboard/customers`)
 
 ---
 
@@ -92,6 +92,7 @@ Input:
 * Post-Implementation Lint Recovery completed successfully. Audited the products management page implementation and restored code quality by addressing TypeScript any types, unused variables, implicit any types in form fields, missing module definitions, and hydration mismatch warnings related to nested `<button>` structures. Removed experimental scratch files and verified full pass for `npm run lint` and `npm run build`.
 * Products UI Refinement of Add Product Modal (`/dashboard/products`): Reduced dialog width to `sm:max-w-lg` (512px) on desktop/tablet viewports. Redesigned layout to a single-column stacked format with 2-column sub-grids for pricing (Cost Price/Selling Price) and stock/category. Expanded images upload list to 3 columns. Fixed react-hook-form type mismatches. Replaced base-ui ScrollArea with native `overflow-y-auto` div for reliable scroll behavior inside the flex column layout. Successfully verified type safety and linting.
 * ThemeSwitcher Hydration Fix: Resolved `aria-pressed` server/client mismatch by replacing `useState`+`useEffect` mounted pattern with `useSyncExternalStore`, the idiomatic React 18+ approach for distinct server vs client snapshots. Eliminates both the hydration warning and the `react-hooks/set-state-in-effect` lint violation.
+* Customer Management Page (`/dashboard/customers`) completed. Created `customers-actions.ts` to execute advanced Prisma queries (lifetime spend, active cart calculations, last purchase timestamps, dynamic order counts). Added `CustomerTabs` for filtering cohorts (e.g. New This Month, Paying, High Value, Inactive). Built a high-performance `CustomersTableClient` using Shadcn table components and Radix UI Tooltips. Constructed a detailed `CustomerModal` for deep-dive customer profiling, showing recent orders, active cart items, mapped addresses, and overall lifetime analytics. All Server Actions and Client Components successfully validated with zero type errors.
 
 ---
 
@@ -103,7 +104,7 @@ Tracks work currently being implemented.
 
 Input:
 
-* None
+* Complete MVP setup is mostly done, transitioning to Storefront integration.
 
 ---
 
@@ -115,9 +116,9 @@ Tracks the highest-priority work that should be completed next.
 
 Input:
 
-* **ACTION REQUIRED BY USER**: Please run `npx prisma db push` or `npx prisma migrate dev` in your local environment to apply the schema changes to your remote database.
 * Core E-Commerce Storefront Layout (Header, Footer, Navigation)
 * Product listing and detail pages
+* Checkout flow
 
 ---
 
@@ -148,6 +149,7 @@ Input:
 * Better Auth with custom `role` parameter synchronized to Postgres via PrismaAdapter databaseHooks.
 * UploadThing for file upload infrastructure with custom session-validated authorization guards.
 * Using `@/lib/db-types` as a re-export barrel for the generated Prisma client to avoid brittle deep relative path imports.
+* Extensive use of Prisma `_count`, `sum`, and deeply nested `include` relations for generating rich analytics metrics efficiently across the dashboard.
 
 ---
 
@@ -159,11 +161,11 @@ Tracks the outcome of the most recent implementation session.
 
 Input:
 
-* Refined Add Product modal width from `sm:max-w-2xl` to `sm:max-w-lg`, restructured form from 2-column to single-column stacked layout with compact sub-grids for pricing and inventory/category fields.
-* Fixed Zod schema type mismatch (`z.coerce.number()` → `z.number()` with `valueAsNumber: true` on react-hook-form registers) to achieve full compile-time type safety.
-* Replaced base-ui `ScrollArea` with native `overflow-y-auto` div for reliable scroll behavior inside the dialog's flex column layout.
-* Fixed ThemeSwitcher hydration mismatch (`aria-pressed` server/client divergence) by replacing `useState`+`useEffect` mounted pattern with `useSyncExternalStore` — the idiomatic React 18+ approach for distinct server vs client snapshots.
-* **Validation completed**: `pnpm exec tsc --noEmit` and `pnpm run lint` both pass with zero errors.
+* Completed `/dashboard/customers` implementation.
+* Created Prisma aggregations and metrics for customers inside `customers-actions.ts`.
+* Constructed `CustomersTableClient` and `CustomerModal` for comprehensive customer CRM insights.
+* Filter tags (cohorts) effectively utilize `OR` and `AND` conditional Prisma operators for accurate data presentation.
+* Verified `pnpm exec tsc --noEmit` and `pnpm run lint` cleanly pass.
 
 ---
 
@@ -175,7 +177,7 @@ Tracks issues preventing progress.
 
 Input:
 
-* Need user to run prisma migration (`npx prisma db push`).
+* None
 
 ---
 
@@ -189,7 +191,7 @@ Input:
 
 * Status: Healthy
 
-Reason: Project setup, routes, theme switcher, layout framework, database schema, auth client/server config, file uploads, and middleware route security have been successfully built and validated. Hydration and authentication mismatches have been identified and fixed. Next.js compiler, TypeScript checks, and ESLint checks run successfully with zero errors.
+Reason: The complete Dashboard Foundation is fully functional, spanning Overview, Orders, Products, and Customers. Authentication is robust, DB schemas are synced, and the codebase passes strict typing and linting checks.
 
 ---
 
@@ -205,14 +207,11 @@ Date: 2026-06-26
 
 Updated By: Antigravity
 
-* **Add Product Modal UI Refinement**:
-  - Reduced dialog width to `sm:max-w-lg` (512px) on desktop.
-  - Restructured layout to single-column stacked with compact 2-column sub-grids for pricing and stock/category.
-  - Replaced `ScrollArea` with native `overflow-y-auto` div for reliable scrolling.
-  - Fixed Zod `z.coerce.number()` → `z.number()` with `valueAsNumber: true` for full type safety.
-* **ThemeSwitcher Hydration Fix**:
-  - Replaced `useState`+`useEffect` mounted pattern with `useSyncExternalStore` to eliminate `aria-pressed` server/client mismatch.
-* Validated through `pnpm exec tsc --noEmit` and `pnpm run lint` with zero errors.
+* **Customer Management Page Complete**:
+  - Implemented `customers-actions.ts` for database fetching and aggregating metrics.
+  - Added `customers-metrics.tsx`, `customer-tabs.tsx`, `customers-table-client.tsx`, and `customer-modal.tsx`.
+  - Used Shadcn tables, Radix tooltips, and deep Prisma inclusions for the modal.
+  - Fully verified type safety and linting rules.
 
 Every AI agent must:
 
