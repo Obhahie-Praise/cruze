@@ -90,7 +90,8 @@ Input:
   * **Middleware Graceful Degradation**: Modified `src/middleware.ts` so that if the authentication service or database goes down temporarily, users with a valid `better-auth.session_token` cookie are passed through rather than immediately redirected to `/signin`. This prevents session destruction during momentary connection outages.
 * Products Management Page (`/dashboard/products`) completed. Included a database schema audit, adding missing fields to the `Category` and `Product` models (target audience, occasion, season, material, featured, archived, viewsCount). Implemented metrics cards, dynamic category tabs with counts, an "Add Category" modal with validation, and a full data table supporting search, filtering, bulk actions (delete, archive, move), and pagination, all directly fetching from the generated Prisma client.
 * Post-Implementation Lint Recovery completed successfully. Audited the products management page implementation and restored code quality by addressing TypeScript any types, unused variables, implicit any types in form fields, missing module definitions, and hydration mismatch warnings related to nested `<button>` structures. Removed experimental scratch files and verified full pass for `npm run lint` and `npm run build`.
-* Products UI Refinement of Add Product Modal (`/dashboard/products`): Reduced dialog width to `sm:max-w-lg` (512px) on desktop/tablet viewports. Redesigned layout to a single-column stacked format with 2-column sub-grids for pricing (Cost Price/Selling Price) and stock/category. Expanded images upload list to 3 columns. Fixed react-hook-form type mismatches and successfully verified type safety and linting.
+* Products UI Refinement of Add Product Modal (`/dashboard/products`): Reduced dialog width to `sm:max-w-lg` (512px) on desktop/tablet viewports. Redesigned layout to a single-column stacked format with 2-column sub-grids for pricing (Cost Price/Selling Price) and stock/category. Expanded images upload list to 3 columns. Fixed react-hook-form type mismatches. Replaced base-ui ScrollArea with native `overflow-y-auto` div for reliable scroll behavior inside the flex column layout. Successfully verified type safety and linting.
+* ThemeSwitcher Hydration Fix: Resolved `aria-pressed` server/client mismatch by replacing `useState`+`useEffect` mounted pattern with `useSyncExternalStore`, the idiomatic React 18+ approach for distinct server vs client snapshots. Eliminates both the hydration warning and the `react-hooks/set-state-in-effect` lint violation.
 
 ---
 
@@ -158,20 +159,11 @@ Tracks the outcome of the most recent implementation session.
 
 Input:
 
-* Completed Orders Management page UI and server actions.
-* Conducted Emergency Stabilization Audit. Addressed severe linting warnings, replaced rogue `any` instances, isolated component declaration structures causing hydration render resets (in recent-products-table and top-products-table), fixed implicit UI component errors, replaced `<img>` tags with `<Image />`, and ensured a clean, zero-error compiler build for both `tsc` and `next build`.
-* Resolved Prisma generated client resolution errors by migrating all internal paths to the `@/lib/db-types` barrel export, eliminating `.prisma/client/index-browser` crashes on the client.
-* Diagnosed and fixed the authentication user creation pipeline. The failure during signup (`unable_to_create_user`) occurred because Better Auth attempts to write `accessTokenExpiresAt` and `refreshTokenExpiresAt` to the `Account` table, but our Prisma schema had a single `expiresAt` field. This caused `prisma.account.create` to throw an unknown field error, leaving the newly created `User` record orphaned in the DB without a valid `Account` or `Session`. We updated `prisma/schema.prisma` to match Better Auth's expectations.
-* Investigated hydration mismatches involving button elements. Traced the root cause to improper Radix UI prop usage in `src/app/(portal)/dashboard/layout.tsx` and `src/components/portal/revenue-statistics-card.tsx`. The `DropdownMenuTrigger` component was being passed a `render={<Button />}` prop, which generated invalid nested button DOM elements (`<button render="[object Object]"><button>...</button></button>`). Fixed this by using the standard `asChild` composition pattern instead.
-* **NOTE**: The environment lacks direct database access due to network firewall/proxy to neon database. The user will need to run the prisma migrations manually.
-* Implemented the Products Management Page (`/dashboard/products`) matching the existing Shadcn dashboard UI constraints.
-* Performed Prisma schema modifications (Category/Product additions), generated the Prisma client, built a comprehensive server actions module for Products, and developed responsive React components for data visualization (Metrics, Tabs, Data Table with Bulk Actions).
-* Conducted Post-Implementation Lint Recovery: 
-  * **Lint audit completed**: Fixed unused imports, `no-img-element` warnings, and unused variables in Products components.
-  * **Files affected**: `add-category-dialog.tsx`, `product-category-tabs.tsx`, `products-table-client.tsx`, `page.tsx`, `products-actions.ts`.
-  * **Issues resolved**: Refactored `add-category-dialog.tsx` to strictly use functional standard inputs and `react-hook-form` since `@/components/ui/form` was missing. Fixed invalid dropdown trigger component mappings. Replaced unallowed direct `setState` within `useEffect` calls in Tabs components. Exported missing custom `ProductFilter` types from `products-actions.ts`.
-  * **Validation completed**: Project now strictly compiles with zero lint errors and a clean `npm run build` execution.
-  * **Current project state**: Stable, strict typing enforced, ready for storefront feature development.
+* Refined Add Product modal width from `sm:max-w-2xl` to `sm:max-w-lg`, restructured form from 2-column to single-column stacked layout with compact sub-grids for pricing and inventory/category fields.
+* Fixed Zod schema type mismatch (`z.coerce.number()` → `z.number()` with `valueAsNumber: true` on react-hook-form registers) to achieve full compile-time type safety.
+* Replaced base-ui `ScrollArea` with native `overflow-y-auto` div for reliable scroll behavior inside the dialog's flex column layout.
+* Fixed ThemeSwitcher hydration mismatch (`aria-pressed` server/client divergence) by replacing `useState`+`useEffect` mounted pattern with `useSyncExternalStore` — the idiomatic React 18+ approach for distinct server vs client snapshots.
+* **Validation completed**: `pnpm exec tsc --noEmit` and `pnpm run lint` both pass with zero errors.
 
 ---
 
@@ -213,23 +205,14 @@ Date: 2026-06-26
 
 Updated By: Antigravity
 
-* **Add Product Modal UI Refinement Plan**:
-  - Created implementation plan for reducing the width of the Add Product modal to `sm:max-w-lg` (512px) on desktop.
-  - Planned single-column stacked layout with compact side-by-side grids for pricing and stock/category fields.
-* **Products Management Page Implementation**:
-  * Audited and updated the `Category` and `Product` Prisma models.
-  * Developed the main layout using Shadcn UI.
-  * Built metrics, tabs, Add Category modal, and a fully functional data table supporting searching, filtering, bulk actions, and pagination via URL parameters.
-* **Post-Implementation Lint Recovery**:
-  * Corrected missing module imports and replaced broken shadcn-form dependencies with functional form controls.
-  * Suppressed hydration and type assignment errors correctly.
-  * Cleared unused scratch test files from the repo.
-  * Validated strict Type checks and Next.js compiler tests successfully.
-* **Auth Session Stability & Layout Fixes**:
-  * Moved the mobile Theme Switcher into the sidebar footer and made the top navigation sticky in the dashboard layout.
-  * Added explicit `pg.Pool` configuration in `src/lib/prisma.ts` with increased connection timeouts to resolve `P1001` DatabaseNotReachable errors caused by Neon's cold starts.
-  * Updated `src/middleware.ts` to allow requests with an existing session cookie to bypass immediate `/signin` redirection when the database temporarily fails to respond, avoiding unnecessary session drops.
-  * Validated through `npx tsc` and `npx next build` with zero errors.
+* **Add Product Modal UI Refinement**:
+  - Reduced dialog width to `sm:max-w-lg` (512px) on desktop.
+  - Restructured layout to single-column stacked with compact 2-column sub-grids for pricing and stock/category.
+  - Replaced `ScrollArea` with native `overflow-y-auto` div for reliable scrolling.
+  - Fixed Zod `z.coerce.number()` → `z.number()` with `valueAsNumber: true` for full type safety.
+* **ThemeSwitcher Hydration Fix**:
+  - Replaced `useState`+`useEffect` mounted pattern with `useSyncExternalStore` to eliminate `aria-pressed` server/client mismatch.
+* Validated through `pnpm exec tsc --noEmit` and `pnpm run lint` with zero errors.
 
 Every AI agent must:
 

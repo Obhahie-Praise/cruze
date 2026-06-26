@@ -22,7 +22,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { createProduct } from "@/lib/products-actions";
 import { toast } from "sonner";
@@ -175,7 +174,7 @@ export function AddProductDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] flex flex-col p-0 overflow-hidden sm:[&>button.absolute]:hidden">
+      <DialogContent className="sm:max-w-md max-h-[90vh] flex flex-col p-0 overflow-hidden sm:[&>button.absolute]:hidden">
         <DialogHeader className="px-6 py-6 border-b flex flex-row items-center justify-between shrink-0">
           <DialogTitle>Add Product</DialogTitle>
           <Button
@@ -190,7 +189,7 @@ export function AddProductDialog({
           </Button>
         </DialogHeader>
 
-        <ScrollArea className="flex-1 px-6 py-4">
+        <div className="flex-1 overflow-y-auto min-h-0 px-6 py-4">
           <form
             id="add-product-form"
             onSubmit={form.handleSubmit(onSubmit)}
@@ -390,7 +389,7 @@ export function AddProductDialog({
             )}
 
           </form>
-        </ScrollArea>
+        </div>
 
         <div className="p-6 pt-4 border-t shrink-0 flex justify-end">
           <Button

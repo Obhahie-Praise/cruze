@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { Sun01Icon, Moon01Icon, ComputerIcon } from "hugeicons-react";
 import {
@@ -24,48 +24,14 @@ const themeOptions: ThemeOption[] = [
   { value: "dark", label: "Dark", icon: Moon01Icon },
 ];
 
+// No-op subscribe — value never changes after hydration
+const emptySubscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
 export function ThemeSwitcher() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
   const { theme, setTheme } = useTheme();
-
-  // Run on mount to ensure we are client-side
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    // Render a placeholder with the same layout structure and inactive styles
-    // to match server HTML exactly and avoid layout shift
-    return (
-      <div
-        role="group"
-        aria-label="Theme switcher"
-        className="flex items-center gap-0.5 rounded-lg border border-border bg-muted/40 p-0.5"
-      >
-        {themeOptions.map(({ value, label, icon: Icon }) => (
-          <Tooltip key={value}>
-            <TooltipTrigger render={
-              <button
-                id={`theme-switcher-${value}`}
-                type="button"
-                aria-label={`Switch to ${label} theme`}
-                aria-pressed={false}
-                className={cn(
-                  "flex h-7 w-7 items-center justify-center rounded-md transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                  "text-muted-foreground hover:bg-background/60 hover:text-foreground"
-                )}
-              >
-                <Icon size={15} />
-              </button>
-            } />
-            <TooltipContent side="bottom">
-              <p>{label}</p>
-            </TooltipContent>
-          </Tooltip>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div
@@ -74,7 +40,7 @@ export function ThemeSwitcher() {
       className="flex items-center gap-0.5 rounded-lg border border-border bg-muted/40 p-0.5"
     >
       {themeOptions.map(({ value, label, icon: Icon }) => {
-        const isActive = theme === value;
+        const isActive = mounted && theme === value;
         return (
           <Tooltip key={value}>
             <TooltipTrigger render={
@@ -103,3 +69,4 @@ export function ThemeSwitcher() {
     </div>
   );
 }
+
