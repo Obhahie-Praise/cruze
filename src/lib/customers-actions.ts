@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/lib/db-types";
 
 export type CustomerFilter = 
   | "ALL"
