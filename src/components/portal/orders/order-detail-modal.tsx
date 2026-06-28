@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import { OrderStatusBadge, type OrderWithDetails } from "./order-card";
 import { RefundDialog } from "./refund-dialog";
 import { updateOrderStatus } from "@/lib/orders-actions";
@@ -166,12 +166,11 @@ export function OrderDetailModal({ open, onOpenChange, order }: OrderDetailModal
                     className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0"
                   >
                     {item.imageUrl && (
-                      <Image
+                      <SafeImage
                         src={item.imageUrl}
                         alt={item.name}
                         width={48}
                         height={48}
-                        unoptimized
                         className="rounded-md object-cover border border-border flex-shrink-0"
                       />
                     )}

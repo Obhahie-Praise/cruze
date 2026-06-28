@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { createProduct } from "@/lib/products-actions";
 import { toast } from "sonner";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import { XIcon, StarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -115,12 +115,13 @@ export function AddProductDialog({
 
   // Handle Images
   const handleRemoveImage = (url: string) => {
-    const newImages = images.filter((img) => img.url !== url);
-    // if cover was removed, assign first to cover
-    if (images.find((i) => i.url === url)?.isCover && newImages.length > 0) {
-      newImages[0].isCover = true;
+    const removedWasCover = images.find((i) => i.url === url)?.isCover;
+    const remaining = images.filter((img) => img.url !== url);
+    // if cover was removed, assign first remaining as cover
+    if (removedWasCover && remaining.length > 0) {
+      remaining[0] = { ...remaining[0], isCover: true };
     }
-    setImages(newImages);
+    setImages(remaining);
   };
 
   const handleSetCover = (url: string) => {
@@ -174,7 +175,7 @@ export function AddProductDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] flex flex-col p-0 overflow-hidden sm:[&>button.absolute]:hidden">
+      <DialogContent className="sm:max-w-[80%] max-h-[90vh] flex flex-col p-0 overflow-hidden sm:[&>button.absolute]:hidden">
         <DialogHeader className="px-6 py-6 border-b flex flex-row items-center justify-between shrink-0">
           <DialogTitle>Add Product</DialogTitle>
           <Button
@@ -325,12 +326,15 @@ export function AddProductDialog({
               <UploadDropzone
                 endpoint="productImageUploader"
                 onClientUploadComplete={(res) => {
-                  const newImgs = res.map((r, i) => ({
-                    url: r.url,
-                    isCover: images.length === 0 && i === 0, // first one is cover if none exists
-                    order: images.length + i,
-                  }));
-                  setImages((prev) => [...prev, ...newImgs]);
+                  setImages((prev) => {
+                    const hasCover = prev.some((img) => img.isCover);
+                    const newImgs = res.map((r, i) => ({
+                      url: r.url,
+                      isCover: prev.length === 0 && !hasCover && i === 0,
+                      order: prev.length + i,
+                    }));
+                    return [...prev, ...newImgs];
+                  });
                   toast.success("Images uploaded");
                 }}
                 onUploadError={(error: Error) => {
@@ -346,7 +350,7 @@ export function AddProductDialog({
                       "relative aspect-square rounded-md overflow-hidden border group",
                       img.isCover && "ring-2 ring-primary border-transparent"
                     )}>
-                      <Image src={img.url} alt="Product image" fill className="object-cover" />
+                      <SafeImage src={img.url} alt="Product image" fill className="object-cover" />
                       
                       {/* Overlay actions */}
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-start justify-between p-2">

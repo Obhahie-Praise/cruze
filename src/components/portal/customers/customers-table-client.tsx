@@ -32,7 +32,7 @@ import {
 import { formatCurrency } from "@/lib/utils";
 import type { CustomersResponse } from "@/lib/customers-actions";
 import { buttonVariants } from "@/components/ui/button";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CustomerModal } from "./customer-modal";
 
@@ -163,7 +163,7 @@ export function CustomersTableClient({ data }: CustomersTableClientProps) {
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 shrink-0 rounded-full bg-muted flex items-center justify-center overflow-hidden border">
                             {customer.image ? (
-                              <Image src={customer.image} alt={customer.name} width={40} height={40} className="h-full w-full object-cover" />
+                              <SafeImage src={customer.image} alt={customer.name} width={40} height={40} className="h-full w-full object-cover" />
                             ) : (
                               <UserIcon size={18} className="text-muted-foreground" />
                             )}

@@ -20,7 +20,7 @@ import {
   Mail01Icon,
   UserIcon,
 } from "hugeicons-react";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface CustomerModalProps {
@@ -85,7 +85,7 @@ export function CustomerModal({ customerId, open, onOpenChange }: CustomerModalP
             <div className="flex items-center gap-4">
               <div className="h-16 w-16 shrink-0 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-border">
                 {customer.image ? (
-                  <Image src={customer.image} alt={customer.name} width={64} height={64} className="h-full w-full object-cover" />
+                  <SafeImage src={customer.image} alt={customer.name} width={64} height={64} className="h-full w-full object-cover" />
                 ) : (
                   <UserIcon size={32} className="text-muted-foreground" />
                 )}
@@ -232,7 +232,7 @@ export function CustomerModal({ customerId, open, onOpenChange }: CustomerModalP
                           <div key={idx} className="flex items-center gap-3">
                             <div className="h-10 w-10 bg-muted rounded-md border flex items-center justify-center overflow-hidden shrink-0">
                                {item.productImage ? (
-                                  <Image src={item.productImage} alt={item.productName} width={40} height={40} className="object-cover" />
+                                  <SafeImage src={item.productImage} alt={item.productName} width={40} height={40} className="object-cover" />
                                ) : (
                                   <ShoppingCart01Icon size={16} className="text-muted-foreground" />
                                )}

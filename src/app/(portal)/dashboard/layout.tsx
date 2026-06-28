@@ -43,6 +43,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "@/lib/auth-client";
+import { SafeImage } from "@/components/shared/safe-image";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface NavItem {
@@ -70,10 +71,11 @@ function UserAvatar({
 }) {
   if (image) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <SafeImage
         src={image}
         alt={name ?? "User avatar"}
+        width={32}
+        height={32}
         className="h-8 w-8 shrink-0 rounded-full object-cover"
       />
     );
@@ -133,19 +135,17 @@ function DashboardSidebar() {
             <span className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-md bg-foreground text-xs font-bold text-background">
               C
             </span>
-            <span className="truncate text-sm">Cruze</span>
+            <span className="truncate text-normal font-medium">Cruze</span>
           </Link>
         </SidebarHeader>
-
-        <Separator className="mb-0" />
 
         {/* Navigation */ }
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu className="space-y-1.5">
+              <SidebarMenu className="space-y-2">
                 {/* Search — must be first */}
-                <SidebarMenuItem>
+                <SidebarMenuItem className="rounded-md hover:bg-muted/50 transition-all">
                   <SidebarMenuButton
                     onClick={() => setSearchOpen(true)}
                     tooltip="Search (Ctrl+L)"
@@ -283,7 +283,7 @@ export default function DashboardLayout({
 
       <SidebarInset>
         {/* Top Navigation Bar */ }
-        <header className="relative flex h-14 shrink-0 items-center border-b border-border bg-background px-4">
+        <header className="relative flex h-12 shrink-0 items-center bg-background px-4">
           {/* Left: Sidebar trigger */}
           <div className="flex items-center">
             <SidebarTrigger

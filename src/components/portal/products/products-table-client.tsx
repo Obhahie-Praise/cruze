@@ -38,7 +38,7 @@ import { formatCurrency } from "@/lib/utils";
 import type { ProductsResult } from "@/lib/products-actions";
 import { deleteProducts, archiveProducts, moveProductsToCategory } from "@/lib/products-actions";
 import { buttonVariants } from "@/components/ui/button";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import { toast } from "sonner";
 import { AddProductDialog } from "./add-product-dialog";
 
@@ -288,7 +288,7 @@ export function ProductsTableClient({ data, categories, promotions }: ProductsTa
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 shrink-0 rounded-md bg-muted flex items-center justify-center overflow-hidden border">
                             {product.images?.[0] ? (
-                              <Image src={product.images[0].url} alt={product.name} width={40} height={40} className="h-full w-full object-cover" />
+                              <SafeImage src={product.images[0].url} alt={product.name} width={40} height={40} className="h-full w-full object-cover" />
                             ) : (
                               <span className="text-xs text-muted-foreground">No img</span>
                             )}
